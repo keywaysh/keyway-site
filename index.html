@@ -1,492 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keyway - One link to all your secrets</title>
-  <meta name="description" content="Manage environment variables, API tokens, certificates, and all your team's secrets. One link in your README gives instant access.">
-  
-  <!-- Roboto Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyway - One Link to All Your Secrets</title>
+    <meta name="description" content="The simplest way to manage your team's secrets. If you have GitHub access, you have the secrets. No more Slack. No more outdated .env files.">
+    <meta property="og:title" content="Keyway - One Link to All Your Secrets">
+    <meta property="og:description" content="Stop sending .env files on Slack. One command and your team has all the secrets.">
+    <meta property="og:image" content="https://keyway.sh/og-image.png">
+    <meta property="og:url" content="https://keyway.sh">
+    <meta name="twitter:card" content="summary_large_image">
     
-    body {
-      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      color: #1a1a1a;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    /* Header */
-    header {
-      background: rgba(255, 255, 255, 0.98);
-      padding: 1.5rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #764ba2;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-    
-    .nav-links a {
-      color: #4a5568;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    
-    .nav-links a:hover {
-      color: #764ba2;
-    }
-    
-    /* Hero Section */
-    .hero {
-      background: white;
-      padding: 5rem 0;
-      text-align: center;
-    }
-    
-    h1 {
-      font-size: 3.5rem;
-      font-weight: 900;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-    
-    .subtitle {
-      font-size: 1.4rem;
-      color: #4a5568;
-      margin-bottom: 3rem;
-      font-weight: 300;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    /* Code Examples */
-    .code-example {
-      background: #2d3748;
-      color: #f7fafc;
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      margin: 2rem auto;
-      max-width: 600px;
-      text-align: left;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.95rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    
-    .code-comment {
-      color: #718096;
-      font-style: italic;
-    }
-    
-    .code-command {
-      color: #48bb78;
-    }
-    
-    /* Features Section */
-    .features {
-      background: #f7fafc;
-      padding: 5rem 0;
-    }
-    
-    .features h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #2d3748;
-    }
-    
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 4rem;
-    }
-    
-    .feature {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    
-    .feature h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: #2d3748;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .feature p {
-      color: #4a5568;
-      line-height: 1.7;
-    }
-    
-    /* How it Works */
-    .how-it-works {
-      background: white;
-      padding: 5rem 0;
-    }
-    
-    .how-it-works h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #2d3748;
-    }
-    
-    .steps {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .step {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 2rem;
-      gap: 1.5rem;
-    }
-    
-    .step-number {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    
-    .step-content h3 {
-      margin-bottom: 0.5rem;
-      color: #2d3748;
-    }
-    
-    .step-content p {
-      color: #4a5568;
-    }
-    
-    /* What You Can Store */
-    .secret-types {
-      background: #f7fafc;
-      padding: 5rem 0;
-    }
-    
-    .secret-types h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #2d3748;
-    }
-    
-    .secret-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    
-    .secret-item {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-    }
-    
-    .secret-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
-    .secret-item .icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    /* CTA Section */
-    .cta {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 5rem 0;
-      text-align: center;
-      color: white;
-    }
-    
-    .cta h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .cta p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-    }
-    
-    .cta-code {
-      background: rgba(0,0,0,0.3);
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      display: inline-block;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-    
-    /* Footer */
-    footer {
-      background: #2d3748;
-      color: #a0aec0;
-      padding: 2rem 0;
-      text-align: center;
-    }
-    
-    footer a {
-      color: #a0aec0;
-      text-decoration: none;
-    }
-    
-    footer a:hover {
-      color: white;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-      
-      .subtitle {
-        font-size: 1.1rem;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00DC82;
+            --dark: #0A0E27;
+            --darker: #050714;
+            --gray: #8B92A9;
+            --light-gray: #E8EAED;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --terminal-bg: #1E1E2E;
+            --terminal-green: #00DC82;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--darker);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, #0A0E27 0%, #050714 100%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .badge {
+            background: rgba(0, 220, 130, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #8B92A9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: #00C974;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 220, 130, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Terminal Demo */
+        .terminal {
+            background: var(--terminal-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot:nth-child(1) { background: #FF5F56; }
+        .terminal-dot:nth-child(2) { background: #FFBD2E; }
+        .terminal-dot:nth-child(3) { background: #27C93F; }
+
+        .terminal-content {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .terminal-line {
+            margin: 0.25rem 0;
+        }
+
+        .terminal-prompt {
+            color: var(--terminal-green);
+        }
+
+        .terminal-output {
+            color: #A0A0B0;
+        }
+
+        .terminal-success {
+            color: var(--primary);
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 5rem 2rem;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-weight: 800;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .problem-emoji {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .problem-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 5rem 2rem;
+            background: var(--darker);
+        }
+
+        .solution-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 220, 130, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* How It Works */
+        .how {
+            padding: 5rem 2rem;
+            background: var(--dark);
+        }
+
+        .steps {
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            min-width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.25rem;
+        }
+
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .step-content p {
+            color: var(--gray);
+        }
+
+        .code-block {
+            background: var(--terminal-bg);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--terminal-green);
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 5rem 2rem;
+            background: var(--darker);
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--gray);
+        }
+
+        .pricing-features li::before {
+            content: '✓ ';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <nav>
-        <a href="/" class="logo">
-          <span>🔐</span>
-          <span>Keyway</span>
-        </a>
-        <div class="nav-links">
-          <a href="#features">Features</a>
-          <a href="#how">How it Works</a>
-          <a href="https://github.com/keywaysh">GitHub</a>
-          <a href="mailto:unlock@keyway.sh">Contact</a>
-        </div>
-      </nav>
-    </div>
-  </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge">NOW IN BETA</div>
+        
+        <h1>One Link to All Your Secrets</h1>
+        
+        <p class="subtitle">
+            Stop sending .env files on Slack. With Keyway, if you have GitHub access, you have the secrets. Simple as that.
+        </p>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>One link to all your secrets</h1>
-      <p class="subtitle">
-        Stop sending API keys over Slack. Keyway gives your team instant, secure access to all project secrets directly from your README.
-      </p>
-      
-      <div class="code-example">
-        <div class="code-comment"># In your README.md</div>
-        <div>## 🔐 Secrets</div>
-        <div>Access vault: https://keyway.sh/acme/backend</div>
-        <br>
-        <div class="code-comment"># New developer runs:</div>
-        <div><span class="code-command">$</span> npx @keywaysh/cli pull</div>
-        <div>✓ Authenticated via GitHub</div>
-        <div>✓ Pulled 23 secrets in 12ms</div>
-      </div>
-    </div>
-  </section>
+        <div class="cta-group">
+            <button onclick="joinWaitlist()" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                </svg>
+                Join with GitHub
+            </button>
+            <a href="#demo" class="btn btn-secondary">See How It Works</a>
+        </div>
 
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="container">
-      <h2>Why Teams Choose Keyway</h2>
-      <div class="feature-grid">
-        <div class="feature">
-          <h3>⚡ Instant Onboarding</h3>
-          <p>New developer? They'll have all secrets in under 30 seconds. No more "Can you send me the env vars?" in Slack.</p>
+        <div class="terminal" id="demo">
+            <div class="terminal-header">
+                <div class="terminal-dot"></div>
+                <div class="terminal-dot"></div>
+                <div class="terminal-dot"></div>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> npm install -g @keywaysh/cli
+                </div>
+                <div class="terminal-line terminal-output">
+                    added 1 package in 2s
+                </div>
+                <br>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> keyway init
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ Vault created for acme/backend
+                </div>
+                <div class="terminal-line terminal-output">
+                    📄 Update README.md? <span style="color: white">Yes</span>
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ README.md updated
+                </div>
+                <div class="terminal-line terminal-output">
+                    🔍 Found .env (23 variables). Push to vault? <span style="color: white">Yes</span>
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ 23 secrets pushed to vault
+                </div>
+                <br>
+                <div class="terminal-line terminal-output">
+                    # New developer joins...</div>
+                <br>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> git clone github.com/acme/backend
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> keyway pull
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ Authenticated via GitHub
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ 23 secrets pulled in 12ms
+                </div>
+                <div class="terminal-line terminal-success">
+                    ✓ .env created
+                </div>
+            </div>
         </div>
-        <div class="feature">
-          <h3>🔒 Zero-Trust Security</h3>
-          <p>Everything is encrypted client-side. We never see your secrets. Can't leak what we don't have.</p>
-        </div>
-        <div class="feature">
-          <h3>🔗 GitHub Native</h3>
-          <p>If you have repo access, you have vault access. No separate permissions to manage.</p>
-        </div>
-        <div class="feature">
-          <h3>🚀 Built for Speed</h3>
-          <p>Built with Bun for instant execution. Pull secrets in 12ms, not 2 seconds.</p>
-        </div>
-        <div class="feature">
-          <h3>🔄 Always in Sync</h3>
-          <p>Update once, everyone gets it. No more outdated .env files or production mistakes.</p>
-        </div>
-        <div class="feature">
-          <h3>📦 Works Everywhere</h3>
-          <p>Node.js, Python, PHP, Docker, CI/CD - if it reads env vars, it works with Keyway.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- How it Works -->
-  <section class="how-it-works" id="how">
-    <div class="container">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Initialize Your Vault</h3>
-            <p>Run <code>keyway init</code> in your project. We detect your repo and create a secure vault.</p>
-          </div>
+    <!-- Problem Section -->
+    <section class="problem">
+        <h2 class="section-title">The Daily Struggle</h2>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-emoji">😩</div>
+                <h3 class="problem-title">2 Hours Onboarding</h3>
+                <p class="problem-desc">"Can you send me the .env?" "Which one?" "The updated one" "Check Slack"...</p>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-emoji">🔄</div>
+                <h3 class="problem-title">Sync Nightmare</h3>
+                <p class="problem-desc">Production has new keys, staging is outdated, local is... who knows?</p>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-emoji">📱</div>
+                <h3 class="problem-title">Slack = Security Risk</h3>
+                <p class="problem-desc">API keys in DMs, .env files in channels, secrets in search history forever.</p>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-emoji">🔐</div>
+                <h3 class="problem-title">Enterprise Overkill</h3>
+                <p class="problem-desc">HashiCorp Vault needs a DevOps team. You just need your env vars.</p>
+            </div>
         </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Add Your Secrets</h3>
-            <p>Import your existing .env file or add secrets one by one. Everything is encrypted locally before upload.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Share via README</h3>
-            <p>Add one link to your README. Team members with GitHub access can instantly pull secrets.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3>Stay Synchronized</h3>
-            <p>When secrets change, everyone gets notified. One command to stay up-to-date.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Secret Types -->
-  <section class="secret-types">
-    <div class="container">
-      <h2>Not Just Environment Variables</h2>
-      <div class="secret-grid">
-        <div class="secret-item">
-          <div class="icon">📝</div>
-          <div>ENV Variables</div>
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="solution-content">
+            <h2 class="section-title">Dead Simple by Design</h2>
+            
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">🔗</div>
+                    <h3 class="feature-title">GitHub-Native</h3>
+                    <p class="feature-desc">
+                        If you have access to the repo, you have access to its secrets. No extra permissions, no admin approvals.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">12ms to Pull</h3>
+                    <p class="feature-desc">
+                        One command, all secrets. Faster than opening Slack. Works with any language, any framework.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Secure Enough™</h3>
+                    <p class="feature-desc">
+                        AES encryption, TLS everywhere, audit logs. Not zero-trust, but 100x better than Slack.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="secret-item">
-          <div class="icon">🔑</div>
-          <div>API Keys</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">🗄️</div>
-          <div>Database URLs</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">📜</div>
-          <div>SSL Certificates</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">👥</div>
-          <div>Shared Logins</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">🔐</div>
-          <div>2FA Backup Codes</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">💳</div>
-          <div>License Keys</div>
-        </div>
-        <div class="secret-item">
-          <div class="icon">🎫</div>
-          <div>Access Tokens</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container">
-      <h2>Coming Soon</h2>
-      <p>We're putting the finishing touches on Keyway.</p>
-      <div class="cta-code">npm install -g @keywaysh/cli</div>
-      <p>Be the first to know when we launch.</p>
-    </div>
-  </section>
+    <!-- How It Works -->
+    <section class="how">
+        <h2 class="section-title">Setup in 30 Seconds</h2>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Initialize Your Vault</h3>
+                    <p>Run init in your project. Keyway detects your repo and creates a vault.</p>
+                    <div class="code-block">$ keyway init</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Push Your Secrets</h3>
+                    <p>Keyway finds your .env files and pushes them securely to the vault.</p>
+                    <div class="code-block">$ keyway push</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Team Pulls Automatically</h3>
+                    <p>Anyone with GitHub access runs one command. No invites, no permissions.</p>
+                    <div class="code-block">$ keyway pull</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>
-        © 2025 Keyway | 
-        <a href="mailto:unlock@keyway.sh">unlock@keyway.sh</a> | 
-        <a href="https://github.com/keywaysh">GitHub</a>
-      </p>
-    </div>
-  </footer>
+    <!-- Pricing -->
+    <section class="pricing">
+        <h2 class="section-title">Simple Pricing</h2>
+        <p style="color: var(--gray); margin-top: -1rem; margin-bottom: 2rem;">
+            Start free, upgrade when you need more
+        </p>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-name">Hobby</h3>
+                <div class="pricing-price">$0<span>/month</span></div>
+                <ul class="pricing-features">
+                    <li>3 vaults</li>
+                    <li>Unlimited secrets</li>
+                    <li>Public repos only</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Start Free</button>
+            </div>
+            
+            <div class="pricing-card featured">
+                <h3 class="pricing-name">Team</h3>
+                <div class="pricing-price">$29<span>/month</span></div>
+                <ul class="pricing-features">
+                    <li>Unlimited vaults</li>
+                    <li>Private repos</li>
+                    <li>Audit logs</li>
+                    <li>Priority support</li>
+                    <li>CI/CD tokens</li>
+                </ul>
+                <button class="btn btn-primary" style="width: 100%;">Get Started</button>
+            </div>
+            
+            <div class="pricing-card">
+                <h3 class="pricing-name">Enterprise</h3>
+                <div class="pricing-price">Custom</div>
+                <ul class="pricing-features">
+                    <li>SSO/SAML</li>
+                    <li>Advanced audit</li>
+                    <li>SLA guarantee</li>
+                    <li>Dedicated support</li>
+                    <li>On-premise option</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Ready to Simplify Secret Management?</h2>
+        <p>Join developers from companies already using Keyway</p>
+        <button onclick="joinWaitlist()" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem;">
+            Get Early Access
+        </button>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            No credit card required • Setup in 30 seconds
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            © 2024 Keyway. Built for developers, by developers.
+            <br>
+            <a href="mailto:unlock@keyway.sh">unlock@keyway.sh</a> • 
+            <a href="https://github.com/keywaysh">GitHub</a> • 
+            <a href="https://www.npmjs.com/package/@keywaysh/cli">NPM</a>
+        </p>
+    </footer>
+
+    <script>
+        // GitHub OAuth pour waitlist
+        function joinWaitlist() {
+            const clientId = 'YOUR_GITHUB_CLIENT_ID'; // À remplacer
+            const redirectUri = encodeURIComponent('https://api.keyway.sh/auth/callback?action=waitlist');
+            const scope = 'user:email';
+            
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+        }
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.problem-card, .feature, .step, .pricing-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Terminal animation
+        const terminal = document.querySelector('.terminal-content');
+        const lines = terminal.querySelectorAll('.terminal-line');
+        
+        function animateTerminal() {
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.opacity = '0';
+                    line.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        line.style.transition = 'all 0.3s ease';
+                        line.style.opacity = '1';
+                        line.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 200);
+            });
+        }
+
+        // Trigger animation when terminal is in view
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateTerminal();
+                    terminalObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        terminalObserver.observe(document.querySelector('.terminal'));
+    </script>
 </body>
 </html>
