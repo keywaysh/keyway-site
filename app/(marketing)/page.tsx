@@ -1,17 +1,5 @@
 import Link from 'next/link';
 
-const defaultClientId = 'Ov23lip9QfmquuSMsLAC';
-const defaultRedirect = 'https://api.keyway.sh/auth/callback?action=waitlist';
-const defaultScope = 'user:email';
-
-const githubAuthUrl =
-  process.env.NEXT_PUBLIC_GITHUB_OAUTH_URL ??
-  `https://github.com/login/oauth/authorize?client_id=${
-    process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID ?? defaultClientId
-  }&redirect_uri=${encodeURIComponent(
-    process.env.NEXT_PUBLIC_GITHUB_REDIRECT ?? defaultRedirect
-  )}&scope=${encodeURIComponent(process.env.NEXT_PUBLIC_GITHUB_SCOPE ?? defaultScope)}`;
-
 const problems = [
   {
     title: '2 Hours Onboarding',
@@ -103,14 +91,6 @@ const terminalLines = [
   { text: '✓ .env created', success: true }
 ];
 
-function GitHubIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-    </svg>
-  );
-}
-
 export default function HomePage() {
   return (
     <>
@@ -121,10 +101,6 @@ export default function HomePage() {
           Stop sending .env files on Slack. With Keyway, if you have GitHub access, you have the secrets. Simple as that.
         </p>
         <div className="cta-group">
-          <Link href={githubAuthUrl} className="btn btn-primary">
-            <GitHubIcon />
-            Join with GitHub
-          </Link>
           <Link href="#demo" className="btn btn-secondary">
             See How It Works
           </Link>
@@ -224,7 +200,7 @@ export default function HomePage() {
       <section className="final-cta">
         <h2>Ready to Simplify Secret Management?</h2>
         <p>Join developers from companies already using Keyway</p>
-        <Link href={githubAuthUrl} className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
+        <Link href="mailto:unlock@keyway.sh" className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
           Get Early Access
         </Link>
         <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>No credit card required • Setup in 30 seconds</p>
