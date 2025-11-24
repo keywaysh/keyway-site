@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { InstallBlock } from '../components/install-block';
 
 const problems = [
   {
@@ -121,6 +122,12 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="install">
+        <h2>Install Keyway CLI</h2>
+        <p>Get set up in seconds. Copy the commands below and start syncing secrets locally.</p>
+        <InstallBlock commands={'npm i -g @keywaysh/cli\nkeyway init'} />
       </section>
 
       <section className="problem">
