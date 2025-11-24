@@ -100,7 +100,7 @@ export default function HomePage() {
         <div className="badge">FREE FOR SOLO DEVS</div>
         <h1>Environment Variables That Sync Like GitHub</h1>
         <p className="subtitle">
-          Clone the repo. Pull the variables. Start coding. It's that simple.
+          Clone the repo. Pull the variables. Start coding. It&apos;s that simple.
         </p>
         <div className="cta-group">
           <CopyCtaButton />
@@ -203,7 +203,7 @@ export default function HomePage() {
 
       <section className="final-cta">
         <h2>Ready to Stop Sharing .env Files?</h2>
-        <p>Join 1,000+ developers who never ask "Can you send me the .env?" again.</p>
+        <p>Join 1,000+ developers who never ask &quot;Can you send me the .env?&quot; again.</p>
         <Link href="#demo" className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
           Get Started Free
         </Link>
