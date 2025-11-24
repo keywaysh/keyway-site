@@ -19,7 +19,7 @@ export function CopyCtaButton() {
 
   return (
     <button type="button" className="btn btn-primary" onClick={onCopy}>
-      {copied ? 'Copied' : 'Copy install cmd'}
+      {copied ? 'Copied' : 'Install Keyway'}
     </button>
   );
 }
