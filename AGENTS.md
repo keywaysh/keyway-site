@@ -31,5 +31,5 @@
 
 ## Security & Configuration Tips
 - Set env vars via `.env.local` or platform settings: GitHub OAuth (`NEXT_PUBLIC_GITHUB_*`), login link (`NEXT_PUBLIC_KEYWAY_AUTH_URL`), PostHog (`NEXT_PUBLIC_POSTHOG_*`, `POSTHOG_SERVER_API_KEY`, `POSTHOG_HOST`).
-- Badge analytics use PostHog server key; ensure it’s set only in secure deploy environments.
+- Badge analytics use PostHog server key; ensure it’s set only in secure deploy environments. Repo query parameter is for analytics only; the badge visual stays minimal (Keyway mark only).
 - Do not commit real secrets; `.env.example` is the template.

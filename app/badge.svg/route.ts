@@ -1,21 +1,23 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const svgTemplate = (label: string) => `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="32" role="img" aria-label="${label}">
-  <linearGradient id="g" x2="0" y2="100%">
-    <stop offset="0" stop-color="#444" stop-opacity=".2"/>
-    <stop offset="1" stop-opacity=".2"/>
-  </linearGradient>
-  <rect rx="4" width="180" height="32" fill="#0a0e27"/>
-  <rect rx="4" x="72" width="108" height="32" fill="#00dc82"/>
-  <rect rx="4" width="180" height="32" fill="url(#g)"/>
-  <g fill="#fff" text-anchor="middle"
-     font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
-     font-size="14">
-    <text x="36" y="21" fill="#fff" opacity=".9">Keyway</text>
-    <text x="126" y="21" fill="#0a0e27" font-weight="700">${label}</text>
+const svgTemplate = () => `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="32" role="img" aria-label="Keyway badge">
+  <defs>
+    <linearGradient id="glow" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1a1f3c" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0a0e27" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect rx="6" width="140" height="32" fill="url(#glow)"/>
+  <rect rx="6" width="140" height="32" fill="rgba(255,255,255,0.04)"/>
+  <g fill="#00dc82" transform="translate(12 8)">
+    <rect x="0" y="0" width="6" height="16" rx="2"/>
+    <rect x="8" y="0" width="6" height="16" rx="2" transform="rotate(45 11 8)"/>
   </g>
+  <text x="40" y="21" fill="#e8eaed" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="0.2">
+    Keyway
+  </text>
 </svg>`;
 
 export async function GET(request: NextRequest) {
@@ -45,7 +47,7 @@ export async function GET(request: NextRequest) {
     }).catch(() => {});
   }
 
-  const svg = svgTemplate(repo);
+  const svg = svgTemplate();
   return new NextResponse(svg, {
     status: 200,
     headers: {

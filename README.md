@@ -33,5 +33,5 @@ Wire the API later: add your fetch client and auth/session (middleware or proxy)
 - Existing `index.html` is kept for reference; the app entry is under `app/`.
 
 ## Badge
-- SVG is served from this app at `/badge.svg`, optional `repo` query (e.g. `https://keyway.sh/badge.svg?repo=org/project`).
+- SVG is served from this app at `/badge.svg`. Use the `repo` query only for analytics (`?repo=org/project`); the badge visuals stay minimal (Keyway mark only).
 - If `POSTHOG_SERVER_API_KEY` is set, each view is sent to PostHog (`event: badge_view`) with repo, referer, ua, path, ts. Errors are swallowed so the badge always renders.
