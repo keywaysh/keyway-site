@@ -4,75 +4,78 @@ import { InstallBlock } from '../components/install-block';
 
 const problems = [
   {
-    title: '2 Hours Onboarding',
+    title: 'New Dev Onboarding = Broken Env',
+    desc: 'Every new developer spends hours hunting down the right environment variables.',
+    emoji: '🔐'
+  },
+  {
+    title: 'Sharing .env Files is Painful',
     desc: '"Can you send me the .env?" "Which one?" "The updated one" "Check Slack"...',
     emoji: '😩'
   },
   {
-    title: 'Sync Nightmare',
-    desc: 'Production has new keys, staging is outdated, local is... who knows?',
+    title: 'Local Setups Never Match',
+    desc: 'Your local .env works. Your teammate\'s doesn\'t. Nobody knows which is right.',
     emoji: '🔄'
   },
   {
-    title: 'Slack = Security Risk',
-    desc: 'API keys in DMs, .env files in channels, secrets in search history forever.',
-    emoji: '📱'
-  },
-  {
-    title: 'Enterprise Overkill',
-    desc: 'HashiCorp Vault needs a DevOps team. You just need your env vars.',
-    emoji: '🔐'
+    title: 'Just Want It To Work',
+    desc: 'You\'re building a product, not managing infrastructure. Environment variables shouldn\'t take 3 hours to set up.',
+    emoji: '😤'
   }
 ];
 
 const features = [
   {
-    title: 'GitHub-Native',
-    desc: 'If you have access to the repo, you have access to its secrets. No extra permissions, no admin approvals.',
-    icon: '🔗'
-  },
-  {
-    title: '12ms to Pull',
-    desc: 'One command, all secrets. Faster than opening Slack. Works with any language, any framework.',
+    title: 'GitHub-Native Access',
+    desc: 'If you can clone the repo, you can pull the variables. No invites. No admin approvals. Just clone and run keyway pull.',
     icon: '⚡'
   },
   {
-    title: 'Secure Enough™',
-    desc: 'AES encryption, TLS everywhere, audit logs. Not zero-trust, but 100x better than Slack.',
+    title: 'Works With Your Existing Workflow',
+    desc: 'Keep using .env files. Keyway just makes sure everyone has the same values—without Slack or screenshots.',
+    icon: '🔗'
+  },
+  {
+    title: 'Three Commands. That\'s It.',
+    desc: 'keyway init, keyway push, keyway pull. No config files. No YAML. No Docker. Just works.',
     icon: '🛡️'
   }
 ];
 
 const steps = [
-  { title: 'Initialize Your Vault', desc: 'Run init in your project. Keyway detects your repo and creates a vault.', code: 'keyway init' },
-  { title: 'Push Your Secrets', desc: 'Keyway finds your .env files and pushes them securely to the vault.', code: 'keyway push' },
-  { title: 'Team Pulls Automatically', desc: 'Anyone with GitHub access runs one command. No invites, no permissions.', code: 'keyway pull' }
+  { title: 'Init Your Project', desc: 'keyway init connects your repo to Keyway. One command.', code: 'keyway init' },
+  { title: 'Push Your Variables', desc: 'keyway push uploads your .env values. Everyone gets them.', code: 'keyway push' },
+  { title: 'Anyone Pulls', desc: 'New teammate? They run keyway pull. Their .env is ready.', code: 'keyway pull' }
 ];
 
 const pricing = [
   {
-    name: 'Hobby',
-    price: '$0',
-    per: '/month',
+    name: 'Free',
+    price: 'Free',
+    per: '',
+    desc: 'Perfect for solo developers and side projects',
     featured: false,
-    features: ['3 vaults', 'Unlimited secrets', 'Public repos only', 'Community support'],
+    features: ['1 private repo', 'Unlimited public repos', 'Unlimited variables', 'Share with friends (pull-only)', 'Local development only', 'CLI access', 'No credit card'],
     cta: { label: 'Start Free', variant: 'secondary' as const }
   },
   {
-    name: 'Team',
-    price: '$29',
+    name: 'Pro',
+    price: '9 €',
     per: '/month',
+    desc: 'For freelancers managing multiple projects',
     featured: true,
-    features: ['Unlimited vaults', 'Private repos', 'Audit logs', 'Priority support', 'CI/CD tokens'],
-    cta: { label: 'Get Started', variant: 'primary' as const }
+    features: ['Unlimited private repos', 'Multiple environments (dev, staging, prod)', 'CI/CD integration (GitHub Actions, Vercel, Railway)', 'Web dashboard', 'Priority support'],
+    cta: { label: 'Start Free Trial', variant: 'primary' as const }
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    per: '',
+    name: 'Team',
+    price: '29 €',
+    per: '/month (flat rate)',
+    desc: 'For small teams (2-10 developers)',
     featured: false,
-    features: ['SSO/SAML', 'Advanced audit', 'SLA guarantee', 'Dedicated support', 'On-premise option'],
-    cta: { label: 'Contact Sales', variant: 'secondary' as const }
+    features: ['Everything in Pro', 'Unlimited team members', 'Everyone can push & pull', 'Admin & member roles', 'Shared team dashboard', 'Team activity feed', 'Email support'],
+    cta: { label: 'Start Free Trial', variant: 'secondary' as const }
   }
 ];
 
@@ -80,27 +83,24 @@ const terminalLines = [
   { text: 'npm install -g @keywaysh/cli', prompt: true },
   { text: 'added 1 package in 2s', output: true },
   { text: 'keyway init', prompt: true },
-  { text: '✓ Vault created for acme/backend', success: true },
-  { text: '📄 Update README.md? Yes', output: true },
-  { text: '✓ README.md updated', success: true },
-  { text: '🔍 Found .env (23 variables). Push to vault? Yes', output: true },
-  { text: '✓ 23 secrets pushed to vault', success: true },
-  { text: '# New developer joins...', output: true },
-  { text: 'git clone github.com/acme/backend', prompt: true },
+  { text: '✓ Project detected', success: true },
+  { text: '✓ Vault created', success: true },
+  { text: '✓ Local variables stored securely', success: true },
+  { text: '# New dev joins', output: true },
   { text: 'keyway pull', prompt: true },
-  { text: '✓ Authenticated via GitHub', success: true },
-  { text: '✓ 23 secrets pulled in 12ms', success: true },
-  { text: '✓ .env created', success: true }
+  { text: '✓ GitHub authenticated', success: true },
+  { text: '✓ Variables synced', success: true },
+  { text: '✓ .env updated', success: true }
 ];
 
 export default function HomePage() {
   return (
     <>
       <section className="hero">
-        <div className="badge">NOW IN BETA</div>
-        <h1>One Link to All Your Secrets</h1>
+        <div className="badge">FREE FOR SOLO DEVS</div>
+        <h1>Environment Variables That Sync Like GitHub</h1>
         <p className="subtitle">
-          Stop sending .env files on Slack. With Keyway, if you have GitHub access, you have the secrets. Simple as that.
+          Clone the repo. Pull the variables. Start coding. It's that simple.
         </p>
         <div className="cta-group">
           <CopyCtaButton />
@@ -126,14 +126,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="install">
-        <h2>Install Keyway CLI</h2>
-        <p>Get set up in seconds. Copy the commands below and start syncing secrets locally.</p>
-        <InstallBlock commands={'npm i -g @keywaysh/cli\nkeyway init'} />
-      </section>
-
       <section className="problem">
-        <h2 className="section-title">The Daily Struggle</h2>
+        <h2 className="section-title">The .env File Pain</h2>
         <div className="problem-grid">
           {problems.map(problem => (
             <div className="problem-card" key={problem.title}>
@@ -149,7 +143,7 @@ export default function HomePage() {
 
       <section className="solution">
         <div className="solution-content">
-          <h2 className="section-title">Dead Simple by Design</h2>
+          <h2 className="section-title">Three Commands. Zero Setup.</h2>
           <div className="feature-grid">
             {features.map(feature => (
               <div className="feature" key={feature.title}>
@@ -165,7 +159,7 @@ export default function HomePage() {
       </section>
 
       <section className="how">
-        <h2 className="section-title">Setup in 30 Seconds</h2>
+        <h2 className="section-title">Get Started in 30 Seconds</h2>
         <div className="steps">
           {steps.map((step, index) => (
             <div className="step" key={step.title}>
@@ -181,14 +175,15 @@ export default function HomePage() {
       </section>
 
       <section className="pricing">
-        <h2 className="section-title">Simple Pricing</h2>
+        <h2 className="section-title">Pricing for Small Teams</h2>
         <p style={{ color: 'var(--gray)', marginTop: '-1rem', marginBottom: '2rem' }}>
-          Start free, upgrade when you need more
+          Start free. Upgrade when you have a team.
         </p>
         <div className="pricing-grid">
           {pricing.map(plan => (
             <div className={`pricing-card ${plan.featured ? 'featured' : ''}`} key={plan.name}>
               <h3 className="pricing-name">{plan.name}</h3>
+              {'desc' in plan && <p style={{ color: 'var(--gray)', fontSize: '0.9rem', marginBottom: '1rem' }}>{plan.desc}</p>}
               <div className="pricing-price">
                 {plan.price}
                 <span>{plan.per}</span>
@@ -207,20 +202,24 @@ export default function HomePage() {
       </section>
 
       <section className="final-cta">
-        <h2>Ready to Simplify Secret Management?</h2>
-        <p>Join developers from companies already using Keyway</p>
-        <Link href="mailto:unlock@keyway.sh" className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
-          Contact Us
+        <h2>Ready to Stop Sharing .env Files?</h2>
+        <p>Join 1,000+ developers who never ask "Can you send me the .env?" again.</p>
+        <Link href="#demo" className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
+          Get Started Free
         </Link>
-        <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>No credit card required • Setup in 30 seconds</p>
+        <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>Free forever for solo developers • No credit card • 30 second setup</p>
       </section>
 
       <footer>
         <p>
-          © 2024 Keyway. Built for developers, by developers.
+          © 2025 Keyway. Built for developers, by developers.
           <br />
           <Link href="mailto:unlock@keyway.sh">unlock@keyway.sh</Link> • <Link href="https://github.com/keywaysh">GitHub</Link> •{' '}
           <Link href="https://www.npmjs.com/package/@keywaysh/cli">NPM</Link>
+          <br />
+          <span style={{ fontSize: '0.85rem', color: 'var(--gray)', marginTop: '0.5rem', display: 'inline-block' }}>
+            Need more? Enterprise options available
+          </span>
         </p>
       </footer>
     </>
