@@ -201,7 +201,7 @@ export default function HomePage() {
         <h2>Ready to Simplify Secret Management?</h2>
         <p>Join developers from companies already using Keyway</p>
         <Link href="mailto:unlock@keyway.sh" className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 2.5rem' }}>
-          Get Early Access
+          Contact Us
         </Link>
         <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>No credit card required • Setup in 30 seconds</p>
       </section>
