@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CopyCtaButton } from '../components/copy-cta';
 import { InstallBlock } from '../components/install-block';
 
 const problems = [
@@ -102,6 +103,7 @@ export default function HomePage() {
           Stop sending .env files on Slack. With Keyway, if you have GitHub access, you have the secrets. Simple as that.
         </p>
         <div className="cta-group">
+          <CopyCtaButton />
           <Link href="#demo" className="btn btn-secondary">
             See How It Works
           </Link>
