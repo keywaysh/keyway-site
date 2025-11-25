@@ -42,11 +42,70 @@ a {
   text-decoration: none;
 }
 
+/* Site Header */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: rgba(5, 7, 20, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+
+.logo-icon {
+  color: var(--primary);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray);
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link-primary {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: var(--darker);
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.nav-link-primary:hover {
+  background: var(--primary-strong);
+  color: var(--darker);
+}
+
 /* Alpha Banner */
 .alpha-banner {
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 56px; /* Below header */
+  z-index: 40;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -96,6 +96,17 @@ const terminalLines = [
 export default function HomePage() {
   return (
     <>
+      <header className="site-header">
+        <Link href="/" className="site-logo">
+          <span className="logo-icon">◆</span>
+          <span className="logo-text">Keyway</span>
+        </Link>
+        <nav className="site-nav">
+          <Link href="/dashboard" className="nav-link nav-link-primary">
+            Dashboard
+          </Link>
+        </nav>
+      </header>
       <div className="alpha-banner">
         <span className="alpha-badge">ALPHA</span>
         <span>Keyway is in early alpha. Data loss may occur. Use at your own risk.</span>
