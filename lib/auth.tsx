@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Clear the logged_in cookie (session cookie is HttpOnly, handled by server)
     document.cookie = 'keyway_logged_in=; Path=/; Domain=.keyway.sh; Max-Age=0'
     setUser(null)
-    window.location.href = '/login'
+    window.location.href = '/'
   }
 
   return (
