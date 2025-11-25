@@ -49,6 +49,19 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
     }
   }
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const pasted = e.clipboardData.getData('text')
+
+    // Check if it looks like an env var (KEY=value)
+    const match = pasted.match(/^([A-Za-z_][A-Za-z0-9_]*)=([\s\S]*)$/)
+    if (match) {
+      e.preventDefault()
+      const [, key, val] = match
+      setName(key.toUpperCase())
+      setValue(val)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -115,6 +128,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, '_'))}
+                onPaste={handlePaste}
                 placeholder="API_KEY"
                 className="w-full px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white placeholder-gray-muted focus:outline-none focus:border-primary/50 font-mono text-sm"
                 disabled={isEditing}
@@ -131,7 +145,8 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
               <textarea
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                placeholder={isEditing ? '••••••••••••••••' : 'Enter secret value'}
+                onPaste={handlePaste}
+                placeholder={isEditing ? '••••••••••••••••' : 'Enter secret value or paste KEY=value'}
                 rows={3}
                 className="w-full px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white placeholder-gray-muted focus:outline-none focus:border-primary/50 font-mono text-sm resize-none"
               />
