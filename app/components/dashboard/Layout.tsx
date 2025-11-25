@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth'
 import { Sidebar } from './Sidebar'
@@ -14,6 +14,7 @@ interface LayoutProps {
 export function DashboardLayout({ children }: LayoutProps) {
   const { user, isLoading } = useAuth()
   const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -35,10 +36,10 @@ export function DashboardLayout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-dark-darker flex overflow-hidden">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0 min-h-screen">
-        <Topbar />
-        <main className="flex-1 p-6 overflow-y-auto">
+        <Topbar onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 p-4 md:p-6 overflow-y-auto">
           {children}
         </main>
       </div>

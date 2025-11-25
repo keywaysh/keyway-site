@@ -24,16 +24,31 @@ const navItems = [
   },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
 
   return (
-    <aside className="w-56 border-r border-white/[0.08] bg-dark-darker/50 flex flex-col">
-      <div className="p-4 border-b border-white/[0.08]">
+    <>
+      <div className="p-4 border-b border-white/[0.08] flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight">
           <span className="text-primary">◆</span>
           <span>Keyway</span>
         </Link>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-1 text-gray-muted hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 p-3">
@@ -47,6 +62,7 @@ export function Sidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  onClick={onClose}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
                       ? 'bg-white/[0.08] text-white'
@@ -75,6 +91,32 @@ export function Sidebar() {
           Docs
         </Link>
       </div>
-    </aside>
+    </>
+  )
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 border-r border-white/[0.08] bg-dark-darker/50 flex-col">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile drawer */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          {/* Drawer */}
+          <aside className="fixed left-0 top-0 h-full w-56 bg-dark-darker border-r border-white/[0.08] flex flex-col animate-in slide-in-from-left duration-200">
+            <SidebarContent onClose={onClose} />
+          </aside>
+        </div>
+      )}
+    </>
   )
 }
