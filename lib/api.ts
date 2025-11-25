@@ -191,7 +191,29 @@ class ApiClient {
       if (!vault) throw new Error('Vault not found')
       return vault
     }
-    return this.request<Vault>(`/api/vaults/${owner}/${repo}`)
+    const data = await this.request<{
+      id: string
+      repoFullName: string
+      repoOwner: string
+      repoName: string
+      repoAvatar: string
+      secretCount: number
+      environments: string[]
+      permission: string
+      createdAt: string
+      updatedAt: string
+    }>(`/api/vaults/${owner}/${repo}`)
+    return {
+      id: data.id,
+      repo_name: data.repoName,
+      repo_owner: data.repoOwner,
+      repo_avatar: data.repoAvatar,
+      environments: data.environments,
+      secrets_count: data.secretCount,
+      permission: data.permission as Vault['permission'],
+      updated_at: data.updatedAt,
+      created_at: data.createdAt,
+    }
   }
 
   async getSecrets(vaultId: string): Promise<Secret[]> {
@@ -199,7 +221,17 @@ class ApiClient {
       await delay(500)
       return mockSecrets[vaultId] || []
     }
-    return this.request<Secret[]>(`/api/vaults/${vaultId}/secrets`)
+    const data = await this.request<{
+      secrets: Array<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>
+      total: number
+    }>(`/api/vaults/${vaultId}/secrets`)
+    return data.secrets.map(s => ({
+      id: s.id,
+      name: s.key,
+      environment: s.environment,
+      created_at: s.createdAt,
+      updated_at: s.updatedAt,
+    }))
   }
 
   async getSecretsByRepo(owner: string, repo: string): Promise<Secret[]> {
@@ -209,7 +241,17 @@ class ApiClient {
       if (!vault) return []
       return mockSecrets[vault.id] || []
     }
-    return this.request<Secret[]>(`/api/vaults/${owner}/${repo}/secrets`)
+    const data = await this.request<{
+      secrets: Array<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>
+      total: number
+    }>(`/api/vaults/${owner}/${repo}/secrets`)
+    return data.secrets.map(s => ({
+      id: s.id,
+      name: s.key,
+      environment: s.environment,
+      created_at: s.createdAt,
+      updated_at: s.updatedAt,
+    }))
   }
 
   async createSecret(vaultId: string, data: { name: string; value: string; environment: string }): Promise<Secret> {
