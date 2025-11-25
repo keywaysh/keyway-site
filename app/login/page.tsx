@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, AuthProvider } from '@/lib/auth'
+import { KeywayLogo } from '@/app/components/logo'
 
 const API_BASE = process.env.NEXT_PUBLIC_KEYWAY_API_URL || 'https://api.keyway.sh'
 
@@ -41,7 +42,7 @@ function LoginContent() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 font-extrabold text-xl tracking-tight mb-4">
-            <span className="text-primary">◆</span>
+            <KeywayLogo className="w-6 h-6 text-primary" />
             <span>Keyway</span>
           </Link>
           <h1 className="text-2xl font-bold mb-2">Welcome back</h1>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { KeywayLogo } from '../logo'
 
 const navItems = [
   {
@@ -36,7 +37,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
     <>
       <div className="p-4 border-b border-white/[0.08] flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="text-primary">◆</span>
+          <KeywayLogo className="w-5 h-5 text-primary" />
           <span>Keyway</span>
         </Link>
         {onClose && (

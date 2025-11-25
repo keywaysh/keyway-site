@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { KeywayLogo } from './logo'
 
 export function TopBanner() {
   return (
     <div className="top-banner">
       <Link href="/" className="top-banner-logo">
-        <span>◆</span>
+        <KeywayLogo className="w-4 h-4" />
         <span>Keyway</span>
       </Link>
 
