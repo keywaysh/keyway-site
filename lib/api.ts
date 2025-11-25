@@ -350,7 +350,38 @@ class ApiClient {
       await delay(500)
       return mockActivity
     }
-    return this.request<ActivityEvent[]>('/api/activity')
+    const data = await this.request<{
+      activities: Array<{
+        id: string
+        action: string
+        vaultId: string | null
+        repoFullName: string | null
+        actor: { id: string; username: string; avatarUrl: string | null }
+        platform: string
+        metadata: Record<string, unknown> | null
+        timestamp: string
+      }>
+      total: number
+    }>('/api/activity')
+
+    // Map backend action types to frontend types
+    const actionToType = (action: string): 'pull' | 'push' | 'rotate' => {
+      if (action.includes('pull')) return 'pull'
+      if (action.includes('push') || action.includes('created') || action.includes('updated')) return 'push'
+      if (action.includes('rotate') || action.includes('deleted')) return 'rotate'
+      return 'push'
+    }
+
+    return data.activities.map(a => ({
+      id: a.id,
+      type: actionToType(a.action),
+      vault_id: a.vaultId || '',
+      vault_name: a.repoFullName || '',
+      user_name: a.actor.username,
+      user_avatar: a.actor.avatarUrl || '',
+      timestamp: a.timestamp,
+      description: a.action.replace(/_/g, ' '),
+    }))
   }
 }
 
