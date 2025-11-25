@@ -1,52 +1,77 @@
-const sampleVaults = [
-  { name: 'acme/backend', secrets: 23, updated: '3m ago', envs: ['prod', 'staging', 'local'] },
-  { name: 'acme/mobile', secrets: 14, updated: '42m ago', envs: ['prod', 'staging'] },
-  { name: 'acme/data-pipeline', secrets: 31, updated: '1h ago', envs: ['prod', 'dev'] }
-];
+'use client'
 
-const activity = [
-  { action: 'Pulled secrets', user: 'nina', when: '2m ago' },
-  { action: 'Pushed env vars', user: 'devin', when: '28m ago' },
-  { action: 'Rotated API key', user: 'alex', when: '1h ago' },
-  { action: 'Added vault', user: 'kristen', when: '4h ago' }
-];
+import { useEffect, useState } from 'react'
+import { api } from '@/lib/api'
+import type { Vault } from '@/lib/types'
+import {
+  DashboardLayout,
+  VaultCard,
+  VaultCardSkeleton,
+  ErrorState,
+  EmptyState,
+} from '@/app/components/dashboard'
 
 export default function DashboardPage() {
+  const [vaults, setVaults] = useState<Vault[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchVaults = async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const data = await api.getVaults()
+      setVaults(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load vaults')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchVaults()
+  }, [])
+
   return (
-    <div className="dashboard">
-      <div className="dash-header">
-        <h1>Vaults</h1>
-        <p>Front-only placeholder. Wire this to the Keyway API to fetch vaults, activity, and permissions.</p>
-      </div>
-
-      <div className="dashboard-grid">
-        {sampleVaults.map(vault => (
-          <div className="dash-card" key={vault.name}>
-            <div className="pill">{vault.name}</div>
-            <h3>{vault.secrets} secrets</h3>
-            <p>Updated {vault.updated}</p>
-            <div className="pill" style={{ background: 'rgba(0, 220, 130, 0.12)', color: '#fff' }}>
-              {vault.envs.join(' · ')}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="activity-list">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-          <h3 style={{ margin: 0 }}>Recent activity</h3>
-          <span className="muted">Backed by API soon</span>
+    <DashboardLayout>
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold mb-1 text-white">Vaults</h2>
+          <p className="text-gray-muted">Manage secrets for your repositories</p>
         </div>
-        {activity.map(item => (
-          <div className="activity-row" key={`${item.action}-${item.when}`}>
-            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
-              <span className="pill">{item.user}</span>
-              <span>{item.action}</span>
-            </div>
-            <span>{item.when}</span>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <VaultCardSkeleton key={i} />
+            ))}
           </div>
-        ))}
+        ) : error ? (
+          <ErrorState message={error} onRetry={fetchVaults} />
+        ) : vaults.length === 0 ? (
+          <EmptyState
+            title="No vaults yet"
+            message="Connect a repository to get started with secret management"
+            action={
+              <a
+                href="https://docs.keyway.sh/getting-started"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 text-sm font-medium bg-primary text-dark rounded-lg hover:bg-primary-strong transition-colors"
+              >
+                Get started
+              </a>
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {vaults.map((vault) => (
+              <VaultCard key={vault.id} vault={vault} />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-  );
+    </DashboardLayout>
+  )
 }

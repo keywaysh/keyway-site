@@ -96,6 +96,10 @@ const terminalLines = [
 export default function HomePage() {
   return (
     <>
+      <div className="alpha-banner">
+        <span className="alpha-badge">ALPHA</span>
+        <span>Keyway is in early alpha. Data loss may occur. Use at your own risk.</span>
+      </div>
       <section className="hero">
         <div className="badge">FREE FOR SOLO DEVS</div>
         <h1>Environment Variables That Sync Like GitHub</h1>

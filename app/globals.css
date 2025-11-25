@@ -1,7 +1,11 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 :root {
@@ -36,6 +40,34 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Alpha Banner */
+.alpha-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.alpha-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 /* Hero Section */
