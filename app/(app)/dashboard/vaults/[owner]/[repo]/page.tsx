@@ -170,18 +170,18 @@ export default function VaultDetailPage() {
             </div>
           ) : vault ? (
             <>
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
                   <img
                     src={vault.repo_avatar}
                     alt={vault.repo_owner}
-                    className="w-12 h-12 rounded-lg border border-white/[0.1]"
+                    className="w-12 h-12 rounded-lg border border-white/[0.1] shrink-0"
                   />
-                  <div>
-                    <h2 className="text-2xl font-bold text-white">
+                  <div className="min-w-0">
+                    <h2 className="text-xl sm:text-2xl font-bold text-white break-words">
                       {vault.repo_owner}/{vault.repo_name}
                     </h2>
-                    <p className="text-gray-muted">
+                    <p className="text-gray-muted text-sm">
                       {vault.secrets_count} secrets · {vault.environments.join(', ')}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export default function VaultDetailPage() {
                 {permissionConfig[vault.permission].canWrite && (
                   <button
                     onClick={handleCreateSecret}
-                    className="px-4 py-2 text-sm font-medium bg-primary text-dark rounded-lg hover:bg-primary-strong transition-colors flex items-center gap-2 cursor-pointer"
+                    className="px-4 py-2 text-sm font-medium bg-primary text-dark rounded-lg hover:bg-primary-strong transition-colors flex items-center gap-2 cursor-pointer shrink-0 self-start"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
