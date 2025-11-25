@@ -10,12 +10,12 @@ const API_BASE = process.env.NEXT_PUBLIC_KEYWAY_API_URL || 'https://api.keyway.s
 function LoginContent() {
   const { user, isLoading } = useAuth()
   const router = useRouter()
-  const [loginUrl, setLoginUrl] = useState(`${API_BASE}/auth/github/start`)
+  const [loginUrl, setLoginUrl] = useState(`${API_BASE}/v1/auth/github/start`)
 
   useEffect(() => {
     // Build login URL with redirect on client side
     const redirectUri = encodeURIComponent(window.location.origin + '/dashboard')
-    setLoginUrl(`${API_BASE}/auth/github/start?redirect_uri=${redirectUri}`)
+    setLoginUrl(`${API_BASE}/v1/auth/github/start?redirect_uri=${redirectUri}`)
   }, [])
 
   useEffect(() => {

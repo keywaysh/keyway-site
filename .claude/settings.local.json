@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(find:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(cat:*)",
+      "Bash(tree:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm exec tailwindcss:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(pnpm run build:*)"
     ],
     "deny": []
   }

@@ -126,14 +126,18 @@ class ApiClient {
         github_username: 'nicolas',
       }
     }
-    const data = await this.request<{
-      id: string | null
-      githubId: number
-      username: string
-      email: string | null
-      avatarUrl: string | null
-      createdAt: string | null
-    }>('/api/me')
+    const response = await this.request<{
+      data: {
+        id: string | null
+        githubId: number
+        username: string
+        email: string | null
+        avatarUrl: string | null
+        createdAt: string | null
+      }
+      meta: { requestId: string }
+    }>('/v1/users/me')
+    const data = response.data
     return {
       id: data.id || String(data.githubId),
       name: data.username,
@@ -148,8 +152,8 @@ class ApiClient {
       await delay(600)
       return mockVaults
     }
-    const data = await this.request<{
-      vaults: Array<{
+    const response = await this.request<{
+      data: Array<{
         id: string
         repoOwner: string
         repoName: string
@@ -159,9 +163,12 @@ class ApiClient {
         permission: string
         updatedAt: string
       }>
-      total: number
-    }>('/api/vaults')
-    return data.vaults.map(v => ({
+      meta: {
+        requestId: string
+        pagination: { total: number; limit: number; offset: number; hasMore: boolean }
+      }
+    }>('/v1/vaults')
+    return response.data.map(v => ({
       id: v.id,
       repo_name: v.repoName,
       repo_owner: v.repoOwner,
@@ -181,18 +188,22 @@ class ApiClient {
       if (!vault) throw new Error('Vault not found')
       return vault
     }
-    const data = await this.request<{
-      id: string
-      repoFullName: string
-      repoOwner: string
-      repoName: string
-      repoAvatar: string
-      secretCount: number
-      environments: string[]
-      permission: string
-      createdAt: string
-      updatedAt: string
-    }>(`/api/vaults/${owner}/${repo}`)
+    const response = await this.request<{
+      data: {
+        id: string
+        repoFullName: string
+        repoOwner: string
+        repoName: string
+        repoAvatar: string
+        secretCount: number
+        environments: string[]
+        permission: string
+        createdAt: string
+        updatedAt: string
+      }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}`)
+    const data = response.data
     return {
       id: data.id,
       repo_name: data.repoName,
@@ -213,11 +224,14 @@ class ApiClient {
       if (!vault) return []
       return mockSecrets[vault.id] || []
     }
-    const data = await this.request<{
-      secrets: Array<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>
-      total: number
-    }>(`/api/vaults/${owner}/${repo}/secrets`)
-    return data.secrets.map(s => ({
+    const response = await this.request<{
+      data: Array<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>
+      meta: {
+        requestId: string
+        pagination: { total: number; limit: number; offset: number; hasMore: boolean }
+      }
+    }>(`/v1/vaults/${owner}/${repo}/secrets`)
+    return response.data.map(s => ({
       id: s.id,
       name: s.key,
       environment: s.environment,
@@ -262,13 +276,16 @@ class ApiClient {
       mockSecrets[vault.id].push(newSecret)
       return newSecret
     }
-    const res = await this.request<{ id: string; status: string }>(`/api/vaults/${owner}/${repo}/secrets`, {
+    const response = await this.request<{
+      data: { id: string; status: string }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/secrets`, {
       method: 'POST',
       body: JSON.stringify({ key: data.name, value: data.value, environment: data.environment }),
     })
     // Return a partial secret (we don't get full data back from create)
     return {
-      id: res.id,
+      id: response.data.id,
       name: data.name,
       environment: data.environment,
       created_at: new Date().toISOString(),
@@ -288,10 +305,14 @@ class ApiClient {
       secret.updated_at = new Date().toISOString()
       return secret
     }
-    const res = await this.request<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>(`/api/vaults/${owner}/${repo}/secrets/${secretId}`, {
+    const response = await this.request<{
+      data: { id: string; key: string; environment: string; createdAt: string; updatedAt: string }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/secrets/${secretId}`, {
       method: 'PATCH',
       body: JSON.stringify({ name: data.name, value: data.value }),
     })
+    const res = response.data
     return {
       id: res.id,
       name: res.key,
@@ -311,7 +332,7 @@ class ApiClient {
       if (index !== -1) secrets.splice(index, 1)
       return
     }
-    await this.request<void>(`/api/vaults/${owner}/${repo}/secrets/${secretId}`, {
+    await this.request<void>(`/v1/vaults/${owner}/${repo}/secrets/${secretId}`, {
       method: 'DELETE',
     })
   }
@@ -350,8 +371,8 @@ class ApiClient {
       await delay(500)
       return mockActivity
     }
-    const data = await this.request<{
-      activities: Array<{
+    const response = await this.request<{
+      data: Array<{
         id: string
         action: string
         vaultId: string | null
@@ -361,8 +382,11 @@ class ApiClient {
         metadata: Record<string, unknown> | null
         timestamp: string
       }>
-      total: number
-    }>('/api/activity')
+      meta: {
+        requestId: string
+        pagination: { total: number; limit: number; offset: number; hasMore: boolean }
+      }
+    }>('/v1/activity')
 
     // Map backend action types to frontend types
     const actionToType = (action: string): 'pull' | 'push' | 'rotate' => {
@@ -372,7 +396,7 @@ class ApiClient {
       return 'push'
     }
 
-    return data.activities.map(a => ({
+    return response.data.map(a => ({
       id: a.id,
       type: actionToType(a.action),
       vault_id: a.vaultId || '',
