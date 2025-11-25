@@ -14,6 +14,12 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+// Check if logged in cookie exists
+function isLoggedIn(): boolean {
+  if (typeof document === 'undefined') return false
+  return document.cookie.includes('keyway_logged_in=true')
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -22,6 +28,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchUser = async () => {
     setIsLoading(true)
     setError(null)
+
+    // Skip API call if not logged in
+    if (!isLoggedIn()) {
+      setUser(null)
+      setIsLoading(false)
+      return
+    }
 
     try {
       const userData = await api.getMe()
@@ -39,7 +52,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const logout = () => {
-    document.cookie = 'keyway_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // Clear the logged_in cookie (session cookie is HttpOnly, handled by server)
+    document.cookie = 'keyway_logged_in=; Path=/; Domain=.keyway.sh; Max-Age=0'
     setUser(null)
     window.location.href = '/login'
   }
