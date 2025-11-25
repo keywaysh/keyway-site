@@ -174,16 +174,6 @@ class ApiClient {
     }))
   }
 
-  async getVault(id: string): Promise<Vault> {
-    if (MOCK_MODE) {
-      await delay(400)
-      const vault = mockVaults.find(v => v.id === id)
-      if (!vault) throw new Error('Vault not found')
-      return vault
-    }
-    return this.request<Vault>(`/api/vaults/${id}`)
-  }
-
   async getVaultByRepo(owner: string, repo: string): Promise<Vault> {
     if (MOCK_MODE) {
       await delay(400)
@@ -214,24 +204,6 @@ class ApiClient {
       updated_at: data.updatedAt,
       created_at: data.createdAt,
     }
-  }
-
-  async getSecrets(vaultId: string): Promise<Secret[]> {
-    if (MOCK_MODE) {
-      await delay(500)
-      return mockSecrets[vaultId] || []
-    }
-    const data = await this.request<{
-      secrets: Array<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>
-      total: number
-    }>(`/api/vaults/${vaultId}/secrets`)
-    return data.secrets.map(s => ({
-      id: s.id,
-      name: s.key,
-      environment: s.environment,
-      created_at: s.createdAt,
-      updated_at: s.updatedAt,
-    }))
   }
 
   async getSecretsByRepo(owner: string, repo: string): Promise<Secret[]> {
@@ -290,10 +262,18 @@ class ApiClient {
       mockSecrets[vault.id].push(newSecret)
       return newSecret
     }
-    return this.request<Secret>(`/api/vaults/${owner}/${repo}/secrets`, {
+    const res = await this.request<{ id: string; status: string }>(`/api/vaults/${owner}/${repo}/secrets`, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ key: data.name, value: data.value, environment: data.environment }),
     })
+    // Return a partial secret (we don't get full data back from create)
+    return {
+      id: res.id,
+      name: data.name,
+      environment: data.environment,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
   }
 
   async updateSecretByRepo(owner: string, repo: string, secretId: string, data: { name?: string; value?: string }): Promise<Secret> {
@@ -308,10 +288,17 @@ class ApiClient {
       secret.updated_at = new Date().toISOString()
       return secret
     }
-    return this.request<Secret>(`/api/vaults/${owner}/${repo}/secrets/${secretId}`, {
+    const res = await this.request<{ id: string; key: string; environment: string; createdAt: string; updatedAt: string }>(`/api/vaults/${owner}/${repo}/secrets/${secretId}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ name: data.name, value: data.value }),
     })
+    return {
+      id: res.id,
+      name: res.key,
+      environment: res.environment,
+      created_at: res.createdAt,
+      updated_at: res.updatedAt,
+    }
   }
 
   async deleteSecretByRepo(owner: string, repo: string, secretId: string): Promise<void> {
