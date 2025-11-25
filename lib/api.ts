@@ -126,7 +126,21 @@ class ApiClient {
         github_username: 'nicolas',
       }
     }
-    return this.request<User>('/api/me')
+    const data = await this.request<{
+      id: string | null
+      githubId: number
+      username: string
+      email: string | null
+      avatarUrl: string | null
+      createdAt: string | null
+    }>('/api/me')
+    return {
+      id: data.id || String(data.githubId),
+      name: data.username,
+      email: data.email || '',
+      avatar_url: data.avatarUrl || '',
+      github_username: data.username,
+    }
   }
 
   async getVaults(): Promise<Vault[]> {
@@ -134,7 +148,30 @@ class ApiClient {
       await delay(600)
       return mockVaults
     }
-    return this.request<Vault[]>('/api/vaults')
+    const data = await this.request<{
+      vaults: Array<{
+        id: string
+        repoOwner: string
+        repoName: string
+        repoAvatar: string
+        secretCount: number
+        environments: string[]
+        permission: string
+        updatedAt: string
+      }>
+      total: number
+    }>('/api/vaults')
+    return data.vaults.map(v => ({
+      id: v.id,
+      repo_name: v.repoName,
+      repo_owner: v.repoOwner,
+      repo_avatar: v.repoAvatar,
+      environments: v.environments,
+      secrets_count: v.secretCount,
+      permission: v.permission as Vault['permission'],
+      updated_at: v.updatedAt,
+      created_at: v.updatedAt, // API doesn't return createdAt for list
+    }))
   }
 
   async getVault(id: string): Promise<Vault> {
