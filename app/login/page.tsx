@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, AuthProvider } from '@/lib/auth'
 
@@ -10,6 +10,13 @@ const API_BASE = process.env.NEXT_PUBLIC_KEYWAY_API_URL || 'https://api.keyway.s
 function LoginContent() {
   const { user, isLoading } = useAuth()
   const router = useRouter()
+  const [loginUrl, setLoginUrl] = useState(`${API_BASE}/auth/github/start`)
+
+  useEffect(() => {
+    // Build login URL with redirect on client side
+    const redirectUri = encodeURIComponent(window.location.origin + '/dashboard')
+    setLoginUrl(`${API_BASE}/auth/github/start?redirect_uri=${redirectUri}`)
+  }, [])
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -43,7 +50,7 @@ function LoginContent() {
 
         <div className="bg-card border border-card-border rounded-xl p-6">
           <a
-            href={`${API_BASE}/auth/github/start`}
+            href={loginUrl}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             style={{ color: '#111827' }}
           >
