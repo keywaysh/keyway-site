@@ -310,7 +310,7 @@ class ApiClient {
       meta: { requestId: string }
     }>(`/v1/vaults/${owner}/${repo}/secrets/${secretId}`, {
       method: 'PATCH',
-      body: JSON.stringify({ name: data.name, value: data.value }),
+      body: JSON.stringify({ key: data.name, value: data.value }),
     })
     const res = response.data
     return {
