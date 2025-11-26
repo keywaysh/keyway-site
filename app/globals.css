@@ -22,10 +22,10 @@
   --text-muted: #8b92a9;
   --text-light: #e8eaed;
   --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.1);
+  --card-border: rgba(255, 255, 255, 0.08);
   --terminal-bg: #1e1e2e;
   --nav-bg: rgba(5, 7, 20, 0.9);
-  --border: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.06);
 
   /* Legacy aliases */
   --dark: #0a0e27;
