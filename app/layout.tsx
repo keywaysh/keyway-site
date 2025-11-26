@@ -45,12 +45,16 @@ export default function RootLayout({
         {posthogKey ? (
           <>
             <Script
-              id="posthog-loader"
+              id="posthog-js"
+              src={`${posthogHost}/static/array.js`}
               strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `(function(t,e){if(!t.posthog){var o=e.createElement("script");o.type="text/javascript";o.async=!0;o.src="${posthogHost}/static/array.js";o.onload=function(){t.posthog.init("${posthogKey}",{api_host:"${posthogHost}",capture_pageview:!0,capture_pageleave:!0})};e.head.appendChild(o)}})(window,document);`
-              }}
             />
+            <Script
+              id="posthog-init"
+              strategy="afterInteractive"
+            >
+              {`window.posthog && window.posthog.init('${posthogKey}', { api_host: '${posthogHost}', capture_pageview: true, capture_pageleave: true })`}
+            </Script>
           </>
         ) : null}
       </body>
