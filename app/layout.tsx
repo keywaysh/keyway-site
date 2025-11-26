@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
+import { ThemeProvider } from '@/lib/theme';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -30,6 +31,21 @@ export const metadata: Metadata = {
   }
 };
 
+const themeScript = `
+(function() {
+  try {
+    var theme = localStorage.getItem('keyway-theme');
+    if (theme === 'dark' || theme === 'light' || theme === 'auto') {
+      document.documentElement.setAttribute('data-theme', theme);
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+`;
+
 export default function RootLayout({
   children
 }: Readonly<{
@@ -39,9 +55,14 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com';
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         {posthogKey ? (
           <>
             <Script

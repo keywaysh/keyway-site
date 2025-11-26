@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { KeywayLogo } from './logo'
+import { ThemeToggle } from './theme-toggle'
 
 export function TopBanner() {
   return (
@@ -16,9 +17,12 @@ export function TopBanner() {
         <span className="hidden sm:inline">Data loss may occur</span>
       </div>
 
-      <Link href="/login" className="top-banner-signin">
-        Sign in
-      </Link>
+      <div className="top-banner-right">
+        <ThemeToggle />
+        <Link href="/login" className="top-banner-signin">
+          Sign in
+        </Link>
+      </div>
     </div>
   )
 }

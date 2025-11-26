@@ -88,7 +88,7 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
         {canDelete && onDelete && (
           <button
             onClick={handleDelete}
-            className="p-1 text-gray-muted hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+            className="p-1 text-gray-muted hover:text-red-400 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
             title="Delete vault"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

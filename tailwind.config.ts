@@ -9,25 +9,38 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Primary colors (consistent across themes)
         primary: {
-          DEFAULT: '#00dc82',
-          strong: '#00c974',
+          DEFAULT: 'var(--primary)',
+          strong: 'var(--primary-strong)',
         },
-        dark: {
-          DEFAULT: '#0a0e27',
-          darker: '#050714',
+        // Theme-aware colors
+        background: {
+          DEFAULT: 'var(--bg)',
+          secondary: 'var(--bg-secondary)',
         },
-        gray: {
-          muted: '#8b92a9',
-          light: '#e8eaed',
+        foreground: {
+          DEFAULT: 'var(--text)',
+          muted: 'var(--text-muted)',
+          light: 'var(--text-light)',
         },
         card: {
-          DEFAULT: 'rgba(255, 255, 255, 0.03)',
-          border: 'rgba(255, 255, 255, 0.1)',
+          DEFAULT: 'var(--card-bg)',
+          border: 'var(--card-border)',
         },
+        border: 'var(--border)',
         terminal: {
-          bg: '#1e1e2e',
-          green: '#00dc82',
+          bg: 'var(--terminal-bg)',
+          green: 'var(--terminal-green)',
+        },
+        // Legacy aliases for compatibility
+        dark: {
+          DEFAULT: 'var(--bg-secondary)',
+          darker: 'var(--bg)',
+        },
+        gray: {
+          muted: 'var(--text-muted)',
+          light: 'var(--text-light)',
         },
       },
       fontFamily: {

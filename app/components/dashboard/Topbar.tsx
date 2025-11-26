@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth'
+import { ThemeToggle } from '@/app/components/theme-toggle'
 
 interface TopbarProps {
   onMenuClick: () => void
@@ -25,29 +26,30 @@ export function Topbar({ onMenuClick }: TopbarProps) {
   }, [])
 
   return (
-    <header className="h-14 min-h-[56px] shrink-0 border-b border-white/[0.08] bg-dark-darker/50 backdrop-blur-sm flex items-center justify-between px-4 md:px-6">
+    <header className="h-14 min-h-[56px] shrink-0 border-b border-border bg-background/50 backdrop-blur-sm flex items-center justify-between px-4 md:px-6">
       <div className="flex items-center gap-3">
         {/* Hamburger menu - mobile only */}
         <button
           onClick={onMenuClick}
-          className="md:hidden p-1 -ml-1 text-gray-muted hover:text-white transition-colors"
+          className="md:hidden p-1 -ml-1 text-foreground-muted hover:text-foreground transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
         <div className="w-2 h-2 rounded-full bg-primary" />
-        <span className="text-sm font-semibold text-white">Dashboard</span>
+        <span className="text-sm font-semibold text-foreground">Dashboard</span>
       </div>
 
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         {isLoading ? (
-          <div className="w-8 h-8 rounded-full bg-white/[0.08] animate-pulse" />
+          <div className="w-8 h-8 rounded-full bg-card-border animate-pulse" />
         ) : user ? (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-2 text-sm text-gray-muted hover:text-white transition-colors"
+              className="flex items-center gap-2 text-sm text-foreground-muted hover:text-foreground transition-colors"
             >
               <span className="hidden sm:block">
                 {user.github_username || user.name}
@@ -55,7 +57,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
               <img
                 src={user.avatar_url}
                 alt={user.name}
-                className="w-8 h-8 rounded-full border border-white/[0.1]"
+                className="w-8 h-8 rounded-full border border-card-border"
               />
               <svg className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
@@ -63,16 +65,16 @@ export function Topbar({ onMenuClick }: TopbarProps) {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-dark border border-white/[0.08] rounded-lg shadow-xl py-1 z-50">
-                <div className="px-3 py-2 border-b border-white/[0.08]">
-                  <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                  <p className="text-xs text-gray-muted truncate">@{user.github_username}</p>
+              <div className="absolute right-0 mt-2 w-48 bg-background-secondary border border-border rounded-lg shadow-xl py-1 z-50">
+                <div className="px-3 py-2 border-b border-border">
+                  <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
+                  <p className="text-xs text-foreground-muted truncate">@{user.github_username}</p>
                 </div>
                 <Link
                   href={`https://github.com/${user.github_username}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-muted hover:text-white hover:bg-white/[0.04] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-foreground-muted hover:text-foreground hover:bg-card transition-colors"
                   onClick={() => setDropdownOpen(false)}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -85,7 +87,7 @@ export function Topbar({ onMenuClick }: TopbarProps) {
                     setDropdownOpen(false)
                     logout()
                   }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/[0.04] transition-colors"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-card transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
