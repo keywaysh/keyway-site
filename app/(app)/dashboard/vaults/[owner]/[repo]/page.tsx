@@ -153,7 +153,7 @@ export default function VaultDetailPage() {
         <div className="mb-2">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-muted hover:text-white transition-colors py-2 pr-4"
+            className="inline-flex items-center gap-1.5 text-sm text-foreground-muted hover:text-foreground transition-colors py-2 pr-4"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -165,8 +165,8 @@ export default function VaultDetailPage() {
         <div className="mb-6">
           {isLoading ? (
             <div className="animate-pulse">
-              <div className="h-8 w-48 bg-white/[0.06] rounded mb-2" />
-              <div className="h-4 w-32 bg-white/[0.06] rounded" />
+              <div className="h-8 w-48 bg-card-border rounded mb-2" />
+              <div className="h-4 w-32 bg-card-border rounded" />
             </div>
           ) : vault ? (
             <>
@@ -175,13 +175,13 @@ export default function VaultDetailPage() {
                   <img
                     src={vault.repo_avatar}
                     alt={vault.repo_owner}
-                    className="w-12 h-12 rounded-lg border border-white/[0.1] shrink-0"
+                    className="w-12 h-12 rounded-lg border border-card-border shrink-0"
                   />
                   <div className="min-w-0">
-                    <h2 className="text-xl sm:text-2xl font-bold text-white break-words">
+                    <h2 className="text-xl sm:text-2xl font-bold text-foreground break-words">
                       {vault.repo_owner}/{vault.repo_name}
                     </h2>
-                    <p className="text-gray-muted text-sm">
+                    <p className="text-foreground-muted text-sm">
                       {vault.secrets_count} secrets · {vault.environments.join(', ')}
                     </p>
                   </div>
@@ -200,14 +200,14 @@ export default function VaultDetailPage() {
               </div>
 
               {/* Permission badge */}
-              <div className={`mt-4 p-3 rounded-lg border ${permissionConfig[vault.permission].bgColor} border-white/[0.06]`}>
+              <div className={`mt-4 p-3 rounded-lg border ${permissionConfig[vault.permission].bgColor} border-card-border`}>
                 <div className="flex items-center gap-2">
                   <span className={`text-sm font-medium ${permissionConfig[vault.permission].color}`}>
                     {permissionConfig[vault.permission].label}
                   </span>
-                  <span className="text-xs text-gray-muted">on GitHub</span>
+                  <span className="text-xs text-foreground-muted">on GitHub</span>
                 </div>
-                <p className="text-xs text-gray-muted mt-1">
+                <p className="text-xs text-foreground-muted mt-1">
                   {permissionConfig[vault.permission].description}
                 </p>
               </div>
@@ -219,8 +219,8 @@ export default function VaultDetailPage() {
           <ErrorState message={error} onRetry={fetchData} />
         ) : (
           <div className="bg-card border border-card-border rounded-xl">
-            <div className="px-4 py-3 border-b border-white/[0.08]">
-              <h2 className="font-semibold">Secrets</h2>
+            <div className="px-4 py-3 border-b border-border">
+              <h2 className="font-semibold text-foreground">Secrets</h2>
             </div>
 
             <div className="px-4">

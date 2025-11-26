@@ -97,14 +97,14 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-dark border border-white/[0.1] rounded-xl shadow-2xl">
-        <div className="flex items-center justify-between p-4 border-b border-white/[0.08]">
-          <h2 className="text-lg font-semibold">
+      <div className="relative w-full max-w-md bg-background border border-card-border rounded-xl shadow-2xl">
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h2 className="text-lg font-semibold text-foreground">
             {isEditing ? 'Edit Secret' : 'Create Secret'}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-gray-muted hover:text-white transition-colors cursor-pointer"
+            className="p-1 text-foreground-muted hover:text-foreground transition-colors cursor-pointer"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -121,7 +121,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-light mb-1.5">
+              <label className="block text-sm font-medium text-foreground-muted mb-1.5">
                 Name
               </label>
               <input
@@ -130,16 +130,16 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                 onChange={(e) => setName(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, '_'))}
                 onPaste={handlePaste}
                 placeholder="API_KEY"
-                className="w-full px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white placeholder-gray-muted focus:outline-none focus:border-primary/50 font-mono text-sm"
+                className="w-full px-3 py-2 bg-background-secondary border border-card-border rounded-lg text-foreground placeholder-foreground-muted focus:outline-none focus:border-primary/50 font-mono text-sm"
                 disabled={isEditing}
               />
-              <p className="mt-1 text-xs text-gray-muted">
+              <p className="mt-1 text-xs text-foreground-muted">
                 Only uppercase letters, numbers, and underscores
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-light mb-1.5">
+              <label className="block text-sm font-medium text-foreground-muted mb-1.5">
                 Value
               </label>
               <textarea
@@ -148,17 +148,17 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                 onPaste={handlePaste}
                 placeholder={isEditing ? '••••••••••••••••' : 'Enter secret value or paste KEY=value'}
                 rows={3}
-                className="w-full px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white placeholder-gray-muted focus:outline-none focus:border-primary/50 font-mono text-sm resize-none"
+                className="w-full px-3 py-2 bg-background-secondary border border-card-border rounded-lg text-foreground placeholder-foreground-muted focus:outline-none focus:border-primary/50 font-mono text-sm resize-none"
               />
               {isEditing && (
-                <p className="mt-1 text-xs text-gray-muted">
+                <p className="mt-1 text-xs text-foreground-muted">
                   Leave empty to keep the current value
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-light mb-1.5">
+              <label className="block text-sm font-medium text-foreground-muted mb-1.5">
                 Environment
               </label>
               {isCreatingEnv ? (
@@ -169,7 +169,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                       value={newEnvName}
                       onChange={(e) => setNewEnvName(e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, '-'))}
                       placeholder="production"
-                      className="flex-1 px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white placeholder-gray-muted focus:outline-none focus:border-primary/50 text-sm"
+                      className="flex-1 px-3 py-2 bg-background-secondary border border-card-border rounded-lg text-foreground placeholder-foreground-muted focus:outline-none focus:border-primary/50 text-sm"
                       autoFocus
                     />
                     <button
@@ -178,12 +178,12 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                         setIsCreatingEnv(false)
                         setEnvironment(environments[0] || 'default')
                       }}
-                      className="px-3 py-2 text-sm text-gray-muted hover:text-white bg-white/[0.06] hover:bg-white/[0.1] rounded-lg transition-colors cursor-pointer"
+                      className="px-3 py-2 text-sm text-foreground-muted hover:text-foreground bg-card-border hover:bg-border rounded-lg transition-colors cursor-pointer"
                     >
                       Cancel
                     </button>
                   </div>
-                  <p className="text-xs text-gray-muted">
+                  <p className="text-xs text-foreground-muted">
                     Lowercase letters, numbers, hyphens and underscores
                   </p>
                 </div>
@@ -191,7 +191,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                 <select
                   value={environment}
                   onChange={(e) => handleEnvironmentChange(e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-darker border border-white/[0.1] rounded-lg text-white focus:outline-none focus:border-primary/50 text-sm cursor-pointer"
+                  className="w-full px-3 py-2 bg-background-secondary border border-card-border rounded-lg text-foreground focus:outline-none focus:border-primary/50 text-sm cursor-pointer"
                   disabled={isEditing}
                 >
                   {environments.map((env) => (
@@ -209,7 +209,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-sm font-medium bg-white/[0.06] hover:bg-white/[0.1] rounded-lg transition-colors cursor-pointer"
+              className="flex-1 px-4 py-2 text-sm font-medium text-foreground bg-card border border-card-border hover:border-foreground-muted/30 rounded-lg transition-colors cursor-pointer"
             >
               Cancel
             </button>

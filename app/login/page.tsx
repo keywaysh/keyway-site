@@ -61,7 +61,7 @@ function LoginContent() {
             Sign in with GitHub
           </a>
 
-          <div className="mt-6 pt-6 border-t border-white/[0.08] text-center">
+          <div className="mt-6 pt-6 border-t border-border text-center">
             <p className="text-sm text-gray-muted">
               By signing in, you agree to our{' '}
               <Link href="/terms" className="text-primary hover:underline">

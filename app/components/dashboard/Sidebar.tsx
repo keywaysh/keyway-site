@@ -35,15 +35,15 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b border-white/[0.08] flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight">
+      <div className="p-4 border-b border-border flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight text-foreground">
           <KeywayLogo className="w-5 h-5 text-primary" />
           <span>Keyway</span>
         </Link>
         {onClose && (
           <button
             onClick={onClose}
-            className="md:hidden p-1 text-gray-muted hover:text-white transition-colors"
+            className="md:hidden p-1 text-foreground-muted hover:text-foreground transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -66,8 +66,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                   onClick={onClose}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-white/[0.08] text-white'
-                      : 'text-gray-muted hover:text-white hover:bg-white/[0.04]'
+                      ? 'bg-card text-foreground'
+                      : 'text-foreground-muted hover:text-foreground hover:bg-card'
                   }`}
                 >
                   {item.icon}
@@ -79,12 +79,12 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         </ul>
       </nav>
 
-      <div className="p-3 border-t border-white/[0.08]">
+      <div className="p-3 border-t border-border">
         <Link
           href="https://docs.keyway.sh"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-muted hover:text-white hover:bg-white/[0.04] transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-card transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -100,7 +100,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-56 border-r border-white/[0.08] bg-dark-darker/50 flex-col">
+      <aside className="hidden md:flex w-56 border-r border-border bg-background/50 flex-col">
         <SidebarContent />
       </aside>
 
@@ -113,7 +113,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             onClick={onClose}
           />
           {/* Drawer */}
-          <aside className="fixed left-0 top-0 h-full w-56 bg-dark-darker border-r border-white/[0.08] flex flex-col animate-in slide-in-from-left duration-200">
+          <aside className="fixed left-0 top-0 h-full w-56 bg-background border-r border-border flex flex-col animate-in slide-in-from-left duration-200">
             <SidebarContent onClose={onClose} />
           </aside>
         </div>

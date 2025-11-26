@@ -45,8 +45,8 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="max-w-5xl mx-auto">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-1 text-white">Vaults</h2>
-          <p className="text-gray-muted">Manage secrets for your repositories</p>
+          <h2 className="text-2xl font-bold mb-1 text-foreground">Vaults</h2>
+          <p className="text-foreground-muted">Manage secrets for your repositories</p>
         </div>
 
         {isLoading ? (

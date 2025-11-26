@@ -10,13 +10,13 @@ export function LoadingState({ message = 'Loading...' }: { message?: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-12 gap-4">
       <LoadingSpinner />
-      <p className="text-sm text-gray-muted">{message}</p>
+      <p className="text-sm text-foreground-muted">{message}</p>
     </div>
   )
 }
 
 export function LoadingSkeleton({ className = '' }: { className?: string }) {
   return (
-    <div className={`bg-white/[0.04] rounded animate-pulse ${className}`} />
+    <div className={`bg-card-border rounded animate-pulse ${className}`} />
   )
 }

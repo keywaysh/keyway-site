@@ -82,13 +82,13 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
   return (
     <Link
       href={`/dashboard/vaults/${vault.repo_owner}/${vault.repo_name}`}
-      className="block bg-card border border-card-border rounded-xl p-4 hover:border-white/20 transition-colors group relative"
+      className="block bg-card border border-card-border rounded-xl p-4 hover:border-foreground-muted/30 transition-colors group relative"
     >
       <div className="absolute top-3 right-3 flex items-center gap-2">
         {canDelete && onDelete && (
           <button
             onClick={handleDelete}
-            className="p-1 text-gray-muted hover:text-red-400 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
+            className="p-1 text-foreground-muted hover:text-red-500 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
             title="Delete vault"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,20 +105,20 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
         <img
           src={vault.repo_avatar}
           alt={vault.repo_owner}
-          className="w-10 h-10 rounded-lg border border-white/[0.1]"
+          className="w-10 h-10 rounded-lg border border-card-border"
         />
         <div className="flex-1 min-w-0 pr-6">
-          <h3 className="font-semibold text-white truncate group-hover:text-primary transition-colors">
+          <h3 className="font-semibold text-foreground truncate group-hover:text-primary transition-colors">
             {vault.repo_owner}/{vault.repo_name}
           </h3>
           <div className="flex items-center gap-3 mt-1">
-            <span className="text-xs text-gray-muted flex items-center gap-1">
+            <span className="text-xs text-foreground-muted flex items-center gap-1">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
               </svg>
               {vault.secrets_count} secrets
             </span>
-            <span className="text-xs text-gray-muted">
+            <span className="text-xs text-foreground-muted">
               {formatTimeAgo(vault.updated_at)}
             </span>
           </div>
@@ -129,7 +129,7 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
         {vault.environments.map((env) => (
           <span
             key={env}
-            className="px-2 py-0.5 text-xs font-medium bg-white/[0.06] rounded-full text-gray-light"
+            className="px-2 py-0.5 text-xs font-medium bg-background-secondary rounded-full text-foreground-muted"
           >
             {env}
           </span>
@@ -143,14 +143,14 @@ export function VaultCardSkeleton() {
   return (
     <div className="bg-card border border-card-border rounded-xl p-4 animate-pulse">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-lg bg-white/[0.06]" />
+        <div className="w-10 h-10 rounded-lg bg-card-border" />
         <div className="flex-1">
-          <div className="h-5 w-32 bg-white/[0.06] rounded mb-2" />
-          <div className="h-3 w-24 bg-white/[0.06] rounded" />
+          <div className="h-5 w-32 bg-card-border rounded mb-2" />
+          <div className="h-3 w-24 bg-card-border rounded" />
         </div>
       </div>
       <div className="mt-3 flex gap-1.5">
-        <div className="h-5 w-16 bg-white/[0.06] rounded-full" />
+        <div className="h-5 w-16 bg-card-border rounded-full" />
       </div>
     </div>
   )

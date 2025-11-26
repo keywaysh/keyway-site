@@ -53,13 +53,13 @@ function formatTimeAgo(dateString: string): string {
 
 function ActivityRowSkeleton() {
   return (
-    <div className="flex items-center gap-4 py-4 border-b border-white/[0.06] last:border-0 animate-pulse">
-      <div className="w-8 h-8 rounded-full bg-white/[0.06]" />
+    <div className="flex items-center gap-4 py-4 border-b border-border last:border-0 animate-pulse">
+      <div className="w-8 h-8 rounded-full bg-card-border" />
       <div className="flex-1">
-        <div className="h-4 w-48 bg-white/[0.06] rounded mb-2" />
-        <div className="h-3 w-32 bg-white/[0.06] rounded" />
+        <div className="h-4 w-48 bg-card-border rounded mb-2" />
+        <div className="h-3 w-32 bg-card-border rounded" />
       </div>
-      <div className="h-3 w-16 bg-white/[0.06] rounded" />
+      <div className="h-3 w-16 bg-card-border rounded" />
     </div>
   )
 }
@@ -90,16 +90,16 @@ export default function ActivityPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-1 text-white">Activity</h2>
-          <p className="text-gray-muted">Recent actions across all your vaults</p>
+          <h2 className="text-2xl font-bold mb-1 text-foreground">Activity</h2>
+          <p className="text-foreground-muted">Recent actions across all your vaults</p>
         </div>
 
         {error ? (
           <ErrorState message={error} onRetry={fetchActivity} />
         ) : (
           <div className="bg-card border border-card-border rounded-xl">
-            <div className="px-4 py-3 border-b border-white/[0.08]">
-              <h2 className="font-semibold">Recent Events</h2>
+            <div className="px-4 py-3 border-b border-border">
+              <h2 className="font-semibold text-foreground">Recent Events</h2>
             </div>
 
             <div className="px-4">
@@ -122,7 +122,7 @@ export default function ActivityPage() {
                   return (
                     <div
                       key={event.id}
-                      className="flex items-center gap-4 py-4 border-b border-white/[0.06] last:border-0"
+                      className="flex items-center gap-4 py-4 border-b border-border last:border-0"
                     >
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.color}`}>
                         {config.icon}
@@ -135,15 +135,15 @@ export default function ActivityPage() {
                             alt={event.user_name}
                             className="w-5 h-5 rounded-full"
                           />
-                          <span className="font-medium">{event.user_name}</span>
-                          <span className="text-gray-muted">{event.description}</span>
+                          <span className="font-medium text-foreground">{event.user_name}</span>
+                          <span className="text-foreground-muted">{event.description}</span>
                         </div>
-                        <div className="mt-1 text-xs text-gray-muted">
+                        <div className="mt-1 text-xs text-foreground-muted">
                           {event.vault_name}
                         </div>
                       </div>
 
-                      <div className="text-xs text-gray-muted whitespace-nowrap">
+                      <div className="text-xs text-foreground-muted whitespace-nowrap">
                         {formatTimeAgo(event.timestamp)}
                       </div>
                     </div>
