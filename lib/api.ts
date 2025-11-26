@@ -366,6 +366,18 @@ class ApiClient {
     })
   }
 
+  async deleteVault(owner: string, repo: string): Promise<void> {
+    if (MOCK_MODE) {
+      await delay(300)
+      const index = mockVaults.findIndex(v => v.repo_owner === owner && v.repo_name === repo)
+      if (index !== -1) mockVaults.splice(index, 1)
+      return
+    }
+    await this.request<void>(`/v1/vaults/${owner}/${repo}`, {
+      method: 'DELETE',
+    })
+  }
+
   async getActivity(): Promise<ActivityEvent[]> {
     if (MOCK_MODE) {
       await delay(500)

@@ -9,12 +9,14 @@ import {
   VaultCardSkeleton,
   ErrorState,
   EmptyState,
+  DeleteVaultModal,
 } from '@/app/components/dashboard'
 
 export default function DashboardPage() {
   const [vaults, setVaults] = useState<Vault[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [vaultToDelete, setVaultToDelete] = useState<Vault | null>(null)
 
   const fetchVaults = async () => {
     setIsLoading(true)
@@ -32,6 +34,12 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchVaults()
   }, [])
+
+  const handleDeleteVault = async () => {
+    if (!vaultToDelete) return
+    await api.deleteVault(vaultToDelete.repo_owner, vaultToDelete.repo_name)
+    setVaults((prev) => prev.filter((v) => v.id !== vaultToDelete.id))
+  }
 
   return (
     <DashboardLayout>
@@ -67,11 +75,18 @@ export default function DashboardPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {vaults.map((vault) => (
-              <VaultCard key={vault.id} vault={vault} />
+              <VaultCard key={vault.id} vault={vault} onDelete={setVaultToDelete} />
             ))}
           </div>
         )}
       </div>
+
+      <DeleteVaultModal
+        isOpen={!!vaultToDelete}
+        onClose={() => setVaultToDelete(null)}
+        onConfirm={handleDeleteVault}
+        vault={vaultToDelete}
+      />
     </DashboardLayout>
   )
 }

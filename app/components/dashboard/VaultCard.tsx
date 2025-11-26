@@ -3,6 +3,7 @@ import type { Vault, VaultPermission } from '@/lib/types'
 
 interface VaultCardProps {
   vault: Vault
+  onDelete?: (vault: Vault) => void
 }
 
 function formatTimeAgo(dateString: string): string {
@@ -68,16 +69,36 @@ const permissionConfig: Record<VaultPermission, { icon: React.ReactNode; color: 
   },
 }
 
-export function VaultCard({ vault }: VaultCardProps) {
+export function VaultCard({ vault, onDelete }: VaultCardProps) {
   const permission = permissionConfig[vault.permission]
+  const canDelete = vault.permission === 'admin'
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onDelete?.(vault)
+  }
 
   return (
     <Link
       href={`/dashboard/vaults/${vault.repo_owner}/${vault.repo_name}`}
       className="block bg-card border border-card-border rounded-xl p-4 hover:border-white/20 transition-colors group relative"
     >
-      <div className={`absolute top-3 right-3 ${permission.color}`} title={permission.label}>
-        {permission.icon}
+      <div className="absolute top-3 right-3 flex items-center gap-2">
+        {canDelete && onDelete && (
+          <button
+            onClick={handleDelete}
+            className="p-1 text-gray-muted hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+            title="Delete vault"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        )}
+        <div className={permission.color} title={permission.label}>
+          {permission.icon}
+        </div>
       </div>
 
       <div className="flex items-start gap-3">
