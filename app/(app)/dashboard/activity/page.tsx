@@ -138,7 +138,7 @@ export default function ActivityPage() {
                           <span className="font-medium text-foreground">{event.user_name}</span>
                           <span className="text-foreground-muted">{event.description}</span>
                         </div>
-                        <div className="mt-1 text-xs text-foreground-muted">
+                        <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                           {event.vault_name}
                         </div>
                       </div>
