@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth'
 import { ThemeToggle } from '@/app/components/theme-toggle'
+import { Bars3Icon, ChevronDownIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 
 interface TopbarProps {
   onMenuClick: () => void
@@ -14,7 +15,6 @@ export function Topbar({ onMenuClick }: TopbarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -26,30 +26,27 @@ export function Topbar({ onMenuClick }: TopbarProps) {
   }, [])
 
   return (
-    <header className="h-14 min-h-[56px] shrink-0 border-b border-border bg-background/50 backdrop-blur-sm flex items-center justify-between px-4 md:px-6">
+    <header className="sticky top-0 z-40 h-14 min-h-[56px] shrink-0 border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-between px-4 md:px-6">
       <div className="flex items-center gap-3">
-        {/* Hamburger menu - mobile only */}
         <button
           onClick={onMenuClick}
-          className="md:hidden p-1 -ml-1 text-foreground-muted hover:text-foreground transition-colors"
+          className="md:hidden p-1 -ml-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          <Bars3Icon className="h-6 w-6" />
         </button>
         <div className="w-2 h-2 rounded-full bg-primary" />
-        <span className="text-sm font-semibold text-foreground">Dashboard</span>
+        <span className="text-sm font-semibold text-gray-900 dark:text-white">Dashboard</span>
       </div>
 
       <div className="flex items-center gap-4">
         <ThemeToggle />
         {isLoading ? (
-          <div className="w-8 h-8 rounded-full bg-card-border animate-pulse" />
+          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
         ) : user ? (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-2 text-sm text-foreground-muted hover:text-foreground transition-colors"
+              className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               <span className="hidden sm:block">
                 {user.github_username || user.name}
@@ -57,24 +54,22 @@ export function Topbar({ onMenuClick }: TopbarProps) {
               <img
                 src={user.avatar_url}
                 alt={user.name}
-                className="w-8 h-8 rounded-full border border-card-border"
+                className="w-8 h-8 rounded-full ring-1 ring-gray-200 dark:ring-gray-700"
               />
-              <svg className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-              </svg>
+              <ChevronDownIcon className={`h-4 w-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-background-secondary border border-border rounded-lg shadow-xl py-1 z-50">
-                <div className="px-3 py-2 border-b border-border">
-                  <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
-                  <p className="text-xs text-foreground-muted truncate">@{user.github_username}</p>
+              <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white dark:bg-gray-800 shadow-lg ring-1 ring-gray-900/5 dark:ring-white/10 py-1 z-50">
+                <div className="px-3 py-2 border-b border-gray-100 dark:border-gray-700">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">@{user.github_username}</p>
                 </div>
                 <Link
                   href={`https://github.com/${user.github_username}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-foreground-muted hover:text-foreground hover:bg-card transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                   onClick={() => setDropdownOpen(false)}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -87,11 +82,9 @@ export function Topbar({ onMenuClick }: TopbarProps) {
                     setDropdownOpen(false)
                     logout()
                   }}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-card transition-colors"
+                  className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
+                  <ArrowRightOnRectangleIcon className="h-4 w-4" />
                   Sign out
                 </button>
               </div>

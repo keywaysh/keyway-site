@@ -2,26 +2,20 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Dialog, DialogPanel } from '@headlessui/react'
+import { XMarkIcon, CubeIcon, ClockIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 import { KeywayLogo } from '../logo'
 
 const navItems = [
   {
     label: 'Vaults',
     href: '/dashboard',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
+    icon: CubeIcon,
   },
   {
     label: 'Activity',
     href: '/dashboard/activity',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: ClockIcon,
   },
 ]
 
@@ -35,19 +29,17 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b border-border flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight text-foreground">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight text-gray-900 dark:text-white">
           <KeywayLogo className="w-5 h-5 text-primary" />
           <span>Keyway</span>
         </Link>
         {onClose && (
           <button
             onClick={onClose}
-            className="md:hidden p-1 text-foreground-muted hover:text-foreground transition-colors"
+            className="md:hidden p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <XMarkIcon className="h-5 w-5" />
           </button>
         )}
       </div>
@@ -58,6 +50,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
             const isActive = item.href === '/dashboard'
               ? pathname === '/dashboard'
               : pathname.startsWith(item.href)
+            const Icon = item.icon
 
             return (
               <li key={item.href}>
@@ -66,11 +59,11 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                   onClick={onClose}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-card text-foreground'
-                      : 'text-foreground-muted hover:text-foreground hover:bg-card'
+                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50'
                   }`}
                 >
-                  {item.icon}
+                  <Icon className="h-5 w-5" />
                   {item.label}
                 </Link>
               </li>
@@ -79,16 +72,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         </ul>
       </nav>
 
-      <div className="p-3 border-t border-border">
+      <div className="p-3 border-t border-gray-200 dark:border-gray-700">
         <Link
           href="https://docs.keyway.sh"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-foreground-muted hover:text-foreground hover:bg-card transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
+          <BookOpenIcon className="h-5 w-5" />
           Docs
         </Link>
       </div>
@@ -100,24 +91,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-56 border-r border-border bg-background/50 flex-col">
+      <aside className="hidden md:flex w-56 border-r border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-900/50 flex-col">
         <SidebarContent />
       </aside>
 
       {/* Mobile drawer */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
-          />
-          {/* Drawer */}
-          <aside className="fixed left-0 top-0 h-full w-56 bg-background border-r border-border flex flex-col animate-in slide-in-from-left duration-200">
-            <SidebarContent onClose={onClose} />
-          </aside>
-        </div>
-      )}
+      <Dialog open={isOpen} onClose={onClose} className="relative z-50 md:hidden">
+        <div className="fixed inset-0 bg-black/30 dark:bg-black/50" aria-hidden="true" />
+        <DialogPanel className="fixed left-0 top-0 h-full w-56 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          <SidebarContent onClose={onClose} />
+        </DialogPanel>
+      </Dialog>
     </>
   )
 }

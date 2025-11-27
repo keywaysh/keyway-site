@@ -1,108 +1,74 @@
-'use client';
+'use client'
 
-import { useTheme } from '@/lib/theme';
+import { useTheme } from '@/lib/theme'
 
-const SunIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 2v2" />
-    <path d="M12 20v2" />
-    <path d="m4.93 4.93 1.41 1.41" />
-    <path d="m17.66 17.66 1.41 1.41" />
-    <path d="M2 12h2" />
-    <path d="M20 12h2" />
-    <path d="m6.34 17.66-1.41 1.41" />
-    <path d="m19.07 4.93-1.41 1.41" />
-  </svg>
-);
+function SunIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+    </svg>
+  )
+}
 
-const MoonIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-  </svg>
-);
+function MoonIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+    </svg>
+  )
+}
 
-const AutoIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect x="2" y="3" width="20" height="14" rx="2" />
-    <line x1="8" x2="16" y1="21" y2="21" />
-    <line x1="12" x2="12" y1="17" y2="21" />
-  </svg>
-);
+function ComputerIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+    </svg>
+  )
+}
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme()
 
   const cycleTheme = () => {
-    if (theme === 'dark') {
-      setTheme('light');
+    if (theme === 'auto') {
+      setTheme('light')
     } else if (theme === 'light') {
-      setTheme('auto');
+      setTheme('dark')
     } else {
-      setTheme('dark');
+      setTheme('auto')
     }
-  };
+  }
 
   const getIcon = () => {
     switch (theme) {
       case 'light':
-        return <SunIcon />;
+        return <SunIcon className="w-5 h-5" />
       case 'dark':
-        return <MoonIcon />;
+        return <MoonIcon className="w-5 h-5" />
       case 'auto':
-        return <AutoIcon />;
+        return <ComputerIcon className="w-5 h-5" />
     }
-  };
+  }
 
   const getLabel = () => {
     switch (theme) {
       case 'light':
-        return 'Light mode';
+        return 'Light mode'
       case 'dark':
-        return 'Dark mode';
+        return 'Dark mode'
       case 'auto':
-        return 'Auto (system)';
+        return 'Auto (system)'
     }
-  };
+  }
 
   return (
     <button
       onClick={cycleTheme}
-      className="theme-toggle"
+      className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-surface-800 text-text-secondary hover:text-text-primary hover:bg-surface-700 hover:border-border-subtle transition-colors"
       aria-label={`Current theme: ${getLabel()}. Click to change.`}
       title={getLabel()}
     >
       {getIcon()}
     </button>
-  );
+  )
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
 
 type Theme = 'dark' | 'light' | 'auto';
 
@@ -20,24 +20,34 @@ function getSystemTheme(): 'dark' | 'light' {
 }
 
 function getInitialTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark';
+  if (typeof window === 'undefined') return 'auto';
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === 'dark' || stored === 'light' || stored === 'auto') {
     return stored;
   }
-  return 'dark';
+  return 'auto';
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+function applyTheme(resolved: 'dark' | 'light') {
+  if (resolved === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+}
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setThemeState] = useState<Theme>('auto');
   const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const initial = getInitialTheme();
+    const resolved = initial === 'auto' ? getSystemTheme() : initial;
     setThemeState(initial);
-    setResolvedTheme(initial === 'auto' ? getSystemTheme() : initial);
+    setResolvedTheme(resolved);
+    applyTheme(resolved);
   }, []);
 
   useEffect(() => {
@@ -47,7 +57,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     const handleChange = () => {
       if (theme === 'auto') {
-        setResolvedTheme(getSystemTheme());
+        const resolved = getSystemTheme();
+        setResolvedTheme(resolved);
+        applyTheme(resolved);
       }
     };
 
@@ -58,18 +70,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!mounted) return;
 
-    document.documentElement.setAttribute('data-theme', theme);
-    setResolvedTheme(theme === 'auto' ? getSystemTheme() : theme);
+    const resolved = theme === 'auto' ? getSystemTheme() : theme;
+    setResolvedTheme(resolved);
+    applyTheme(resolved);
   }, [theme, mounted]);
 
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
     localStorage.setItem(STORAGE_KEY, newTheme);
+    const resolved = newTheme === 'auto' ? getSystemTheme() : newTheme;
+    setResolvedTheme(resolved);
+    applyTheme(resolved);
   }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, resolvedTheme }}>

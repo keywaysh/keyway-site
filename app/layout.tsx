@@ -1,16 +1,26 @@
-import type { Metadata } from 'next';
-import Script from 'next/script';
-import type { ReactNode } from 'react';
-import { ThemeProvider } from '@/lib/theme';
-import './globals.css';
+import { type Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import Script from 'next/script'
+import clsx from 'clsx'
+
+import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
-  title: 'Keyway - One Link to All Your Secrets',
+  title: {
+    template: '%s - Keyway',
+    default: 'Keyway - Environment Variables That Sync Like Git',
+  },
   description:
     "The simplest way to manage your team's secrets. If you have GitHub access, you have the secrets. No more Slack. No more outdated .env files.",
   metadataBase: new URL('https://keyway.sh'),
   openGraph: {
-    title: 'Keyway - One Link to All Your Secrets',
+    title: 'Keyway - Environment Variables That Sync Like Git',
     description: 'Stop sending .env files on Slack. One command and your team has all the secrets.',
     url: 'https://keyway.sh',
     images: [
@@ -25,44 +35,24 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Keyway - One Link to All Your Secrets',
+    title: 'Keyway - Environment Variables That Sync Like Git',
     description: 'Stop sending .env files on Slack. One command and your team has all the secrets.',
     images: ['/og-image.png']
   }
-};
-
-const themeScript = `
-(function() {
-  try {
-    var theme = localStorage.getItem('keyway-theme');
-    if (theme === 'dark' || theme === 'light' || theme === 'auto') {
-      document.documentElement.setAttribute('data-theme', theme);
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
-})();
-`;
+}
 
 export default function RootLayout({
-  children
-}: Readonly<{
-  children: ReactNode;
-}>) {
-  const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com';
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com'
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en" className={clsx('bg-gray-50 antialiased', inter.variable)}>
       <body>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        {children}
         {posthogKey ? (
           <>
             <Script
@@ -80,5 +70,5 @@ export default function RootLayout({
         ) : null}
       </body>
     </html>
-  );
+  )
 }

@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss'
+import typography from '@tailwindcss/typography'
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,38 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary colors (consistent across themes)
         primary: {
-          DEFAULT: 'var(--primary)',
-          strong: 'var(--primary-strong)',
-        },
-        // Theme-aware colors
-        background: {
-          DEFAULT: 'var(--bg)',
-          secondary: 'var(--bg-secondary)',
-        },
-        foreground: {
-          DEFAULT: 'var(--text)',
-          muted: 'var(--text-muted)',
-          light: 'var(--text-light)',
-        },
-        card: {
-          DEFAULT: 'var(--card-bg)',
-          border: 'var(--card-border)',
-        },
-        border: 'var(--border)',
-        terminal: {
-          bg: 'var(--terminal-bg)',
-          green: 'var(--terminal-green)',
-        },
-        // Legacy aliases for compatibility
-        dark: {
-          DEFAULT: 'var(--bg-secondary)',
-          darker: 'var(--bg)',
-        },
-        gray: {
-          muted: 'var(--text-muted)',
-          light: 'var(--text-light)',
+          DEFAULT: '#00dc82',
+          strong: '#00c974',
         },
       },
       fontFamily: {
@@ -57,7 +30,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 }
 
 export default config
