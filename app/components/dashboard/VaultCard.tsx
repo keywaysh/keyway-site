@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TrashIcon, KeyIcon } from '@heroicons/react/24/outline'
+import { TrashIcon, KeyIcon, LockClosedIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import { CheckBadgeIcon, CogIcon, PencilIcon, ClipboardDocumentCheckIcon, EyeIcon } from '@heroicons/react/24/solid'
 import type { Vault, VaultPermission } from '@/lib/types'
 
@@ -86,8 +86,13 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
           className="w-10 h-10 rounded-lg ring-1 ring-gray-200 dark:ring-gray-700"
         />
         <div className="flex-1 min-w-0 pr-6">
-          <h3 className="font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors">
-            {vault.repo_owner}/{vault.repo_name}
+          <h3 className="font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors flex items-center gap-1.5">
+            {vault.is_private ? (
+              <LockClosedIcon className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 shrink-0" title="Private repository" />
+            ) : (
+              <GlobeAltIcon className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 shrink-0" title="Public repository" />
+            )}
+            <span className="truncate">{vault.repo_owner}/{vault.repo_name}</span>
           </h3>
           <div className="flex items-center gap-3 mt-1">
             <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">

@@ -17,6 +17,7 @@ export interface Vault {
   environments: string[]
   secrets_count: number
   permission: VaultPermission
+  is_private: boolean
   updated_at: string
   created_at: string
 }

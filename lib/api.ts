@@ -14,6 +14,7 @@ const mockVaults: Vault[] = [
     environments: ['default'],
     secrets_count: 12,
     permission: 'admin',
+    is_private: true,
     updated_at: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
   },
@@ -25,6 +26,7 @@ const mockVaults: Vault[] = [
     environments: ['default'],
     secrets_count: 8,
     permission: 'maintain',
+    is_private: false,
     updated_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 20).toISOString(),
   },
@@ -36,6 +38,7 @@ const mockVaults: Vault[] = [
     environments: ['default'],
     secrets_count: 24,
     permission: 'write',
+    is_private: true,
     updated_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45).toISOString(),
   },
@@ -47,6 +50,7 @@ const mockVaults: Vault[] = [
     environments: ['default'],
     secrets_count: 6,
     permission: 'read',
+    is_private: false,
     updated_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
   },
@@ -171,6 +175,7 @@ class ApiClient {
         secretCount: number
         environments: string[]
         permission: string
+        isPrivate: boolean
         updatedAt: string
       }>
       meta: {
@@ -186,6 +191,7 @@ class ApiClient {
       environments: v.environments,
       secrets_count: v.secretCount,
       permission: v.permission as Vault['permission'],
+      is_private: v.isPrivate,
       updated_at: v.updatedAt,
       created_at: v.updatedAt, // API doesn't return createdAt for list
     }))
@@ -208,6 +214,7 @@ class ApiClient {
         secretCount: number
         environments: string[]
         permission: string
+        isPrivate: boolean
         createdAt: string
         updatedAt: string
       }
@@ -222,6 +229,7 @@ class ApiClient {
       environments: data.environments,
       secrets_count: data.secretCount,
       permission: data.permission as Vault['permission'],
+      is_private: data.isPrivate,
       updated_at: data.updatedAt,
       created_at: data.createdAt,
     }
