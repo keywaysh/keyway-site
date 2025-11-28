@@ -11,4 +11,4 @@ dist
 /.idea
 /.DS_Store
 .claude
-AGENTS.mdtsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
