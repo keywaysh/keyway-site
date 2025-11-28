@@ -59,7 +59,7 @@ export function Footer() {
               </svg>
             </Link>
             <Link
-              href="mailto:unlock@keyway.sh"
+              href="mailto:hello@keyway.sh"
               className="text-gray-400 hover:text-gray-600"
             >
               <span className="sr-only">Email</span>
