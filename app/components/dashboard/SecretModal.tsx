@@ -128,7 +128,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                   onPaste={handlePaste}
                   placeholder="API_KEY"
                   disabled={isEditing}
-                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary font-mono text-sm disabled:bg-gray-100 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
+                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-hidden focus:ring-1 focus:ring-primary font-mono text-sm disabled:bg-gray-100 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
                 />
                 <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                   Only uppercase letters, numbers, and underscores
@@ -145,7 +145,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                   onPaste={handlePaste}
                   placeholder={isEditing ? '••••••••••••••••' : 'Enter secret value or paste KEY=value'}
                   rows={3}
-                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary font-mono text-sm resize-none"
+                  className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-hidden focus:ring-1 focus:ring-primary font-mono text-sm resize-none"
                 />
                 {isEditing && (
                   <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -167,7 +167,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                         onChange={(e) => setNewEnvName(e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, '-'))}
                         placeholder="production"
                         autoFocus
-                        className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+                        className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-primary focus:outline-hidden focus:ring-1 focus:ring-primary text-sm"
                       />
                       <button
                         type="button"
@@ -189,7 +189,7 @@ export function SecretModal({ isOpen, onClose, onSubmit, secret, environments = 
                     value={environment}
                     onChange={(e) => handleEnvironmentChange(e.target.value)}
                     disabled={isEditing}
-                    className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-sm disabled:bg-gray-100 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
+                    className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white focus:border-primary focus:outline-hidden focus:ring-1 focus:ring-primary text-sm disabled:bg-gray-100 dark:disabled:bg-gray-700 disabled:cursor-not-allowed"
                   >
                     {environments.map((env) => (
                       <option key={env} value={env}>{env}</option>

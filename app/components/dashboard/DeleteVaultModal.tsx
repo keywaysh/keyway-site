@@ -94,7 +94,7 @@ export function DeleteVaultModal({ isOpen, onClose, onConfirm, vault }: DeleteVa
                     placeholder={expectedText}
                     autoComplete="off"
                     spellCheck={false}
-                    className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 font-mono text-sm"
+                    className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-red-500 focus:outline-hidden focus:ring-1 focus:ring-red-500 font-mono text-sm"
                   />
                 </div>
               </>

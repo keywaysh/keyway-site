@@ -53,7 +53,10 @@ export async function GET(request: NextRequest) {
     headers: {
       'Content-Type': 'image/svg+xml',
       // Short cache on edge/CDN so analytics still get traffic samples.
-      'Cache-Control': 'public, max-age=0, s-maxage=600'
+      'Cache-Control': 'public, max-age=0, s-maxage=600',
+      // Security headers for SVG content
+      'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'",
+      'X-Content-Type-Options': 'nosniff',
     }
   });
 }

@@ -26,7 +26,7 @@ function AuthCallbackContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-dark-darker flex items-center justify-center p-4">
+      <div className="min-h-dvh bg-dark-darker flex items-center justify-center p-4">
         <div className="w-full max-w-md text-center">
           <div className="w-12 h-12 mx-auto rounded-full bg-red-500/10 flex items-center justify-center mb-4">
             <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@ function AuthCallbackContent() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-darker flex items-center justify-center p-4">
+    <div className="min-h-dvh bg-dark-darker flex items-center justify-center p-4">
       <div className="text-center">
         <div className="w-6 h-6 mx-auto border-2 border-primary/30 border-t-primary rounded-full animate-spin mb-4" />
         <p className="text-gray-muted">Signing you in...</p>
@@ -58,7 +58,7 @@ function AuthCallbackContent() {
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-dark-darker flex items-center justify-center p-4">
+    <div className="min-h-dvh bg-dark-darker flex items-center justify-center p-4">
       <div className="text-center">
         <div className="w-6 h-6 mx-auto border-2 border-primary/30 border-t-primary rounded-full animate-spin mb-4" />
         <p className="text-gray-muted">Loading...</p>

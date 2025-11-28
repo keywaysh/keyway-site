@@ -25,13 +25,54 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  return NextResponse.next()
+  // Create response with security headers
+  const response = NextResponse.next()
+
+  // Content Security Policy (CSP)
+  // Allow PostHog analytics and GitHub avatars
+  const cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://us.i.posthog.com https://app.posthog.com",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https: blob:",
+    "font-src 'self' data:",
+    "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://api.keyway.sh",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "upgrade-insecure-requests"
+  ]
+  response.headers.set('Content-Security-Policy', cspDirectives.join('; '))
+
+  // Additional security headers
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-XSS-Protection', '1; mode=block')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+
+  // CSRF protection via origin checking for state-changing methods
+  const origin = request.headers.get('origin')
+  const host = request.headers.get('host')
+  const method = request.method
+
+  // Check origin for state-changing requests
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    if (origin && host) {
+      const originHost = new URL(origin).host
+      if (originHost !== host) {
+        // Reject cross-origin state-changing requests
+        return new NextResponse('Forbidden: Invalid origin', { status: 403 })
+      }
+    }
+  }
+
+  return response
 }
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/login',
-    '/auth/callback',
+    // Apply to all routes except static files and API routes
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 }
