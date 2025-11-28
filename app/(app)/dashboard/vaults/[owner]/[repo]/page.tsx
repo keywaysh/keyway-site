@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { api } from '@/lib/api'
@@ -13,6 +13,7 @@ import {
   ErrorState,
   EmptyState,
 } from '@/app/components/dashboard'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 // GitHub role config with Keyway-specific descriptions
 const permissionConfig: Record<VaultPermission, {
@@ -72,6 +73,16 @@ export default function VaultDetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingSecret, setEditingSecret] = useState<Secret | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const hasFiredView = useRef(false)
+
+  useEffect(() => {
+    if (!hasFiredView.current) {
+      hasFiredView.current = true
+      trackEvent(AnalyticsEvents.VAULT_DETAIL_VIEW, {
+        repoName: `${owner}/${repo}`,
+      })
+    }
+  }, [owner, repo])
 
   const fetchData = useCallback(async () => {
     setIsLoading(true)
@@ -97,11 +108,13 @@ export default function VaultDetailPage() {
   const handleCreateSecret = () => {
     setEditingSecret(null)
     setIsModalOpen(true)
+    trackEvent(AnalyticsEvents.SECRET_MODAL_OPEN, { action: 'create' })
   }
 
   const handleEditSecret = (secret: Secret) => {
     setEditingSecret(secret)
     setIsModalOpen(true)
+    trackEvent(AnalyticsEvents.SECRET_MODAL_OPEN, { action: 'edit', secretName: secret.name })
   }
 
   const handleDeleteSecret = async (secret: Secret) => {
@@ -110,6 +123,7 @@ export default function VaultDetailPage() {
     try {
       await api.deleteSecretByRepo(owner, repo, secret.id)
       setSecrets((prev) => prev.filter((s) => s.id !== secret.id))
+      trackEvent(AnalyticsEvents.SECRET_DELETE, { secretName: secret.name })
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to delete secret')
     }
@@ -126,6 +140,7 @@ export default function VaultDetailPage() {
         setSecrets((prev) =>
           prev.map((s) => (s.id === editingSecret.id ? updated : s))
         )
+        trackEvent(AnalyticsEvents.SECRET_EDIT, { secretName: data.name })
       } else {
         const created = await api.createSecretByRepo(owner, repo, data)
         setSecrets((prev) => [...prev, created])
@@ -136,6 +151,7 @@ export default function VaultDetailPage() {
             environments: [...vault.environments, data.environment],
           })
         }
+        trackEvent(AnalyticsEvents.SECRET_CREATE, { secretName: data.name, environment: data.environment })
       }
     } finally {
       setIsSubmitting(false)

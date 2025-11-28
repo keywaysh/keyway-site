@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { api } from '@/lib/api'
 import type { Vault } from '@/lib/types'
 import {
@@ -11,12 +11,21 @@ import {
   EmptyState,
   DeleteVaultModal,
 } from '@/app/components/dashboard'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 export default function DashboardPage() {
   const [vaults, setVaults] = useState<Vault[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [vaultToDelete, setVaultToDelete] = useState<Vault | null>(null)
+  const hasFiredView = useRef(false)
+
+  useEffect(() => {
+    if (!hasFiredView.current) {
+      hasFiredView.current = true
+      trackEvent(AnalyticsEvents.DASHBOARD_VIEW)
+    }
+  }, [])
 
   const fetchVaults = async () => {
     setIsLoading(true)

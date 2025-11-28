@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useId, useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Radio, RadioGroup } from '@headlessui/react'
 import clsx from 'clsx'
@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import { Button } from '@/app/components/Button'
 import { Container } from '@/app/components/Container'
 import { CircleBackground } from '@/app/components/CircleBackground'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 // Hero Section
 function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
@@ -141,10 +142,18 @@ function Hero() {
               .env files. No more broken local setups. Just one command.
             </p>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
-              <Button href="#demo" color="green">
+              <Button
+                href="#demo"
+                color="green"
+                onClick={() => trackEvent(AnalyticsEvents.LANDING_CTA_CLICK, { cta: 'get_started' })}
+              >
                 Get started free
               </Button>
-              <Button href="#how-it-works" variant="outline">
+              <Button
+                href="#how-it-works"
+                variant="outline"
+                onClick={() => trackEvent(AnalyticsEvents.LANDING_CTA_CLICK, { cta: 'how_it_works' })}
+              >
                 <span>See how it works</span>
               </Button>
             </div>
@@ -432,7 +441,11 @@ function CallToAction() {
             </code>
           </div>
           <div className="mt-8 flex justify-center">
-            <Button href="https://www.npmjs.com/package/@keywaysh/cli" color="green">
+            <Button
+              href="https://www.npmjs.com/package/@keywaysh/cli"
+              color="green"
+              onClick={() => trackEvent(AnalyticsEvents.LANDING_CTA_CLICK, { cta: 'view_npm' })}
+            >
               View on NPM
             </Button>
           </div>
@@ -481,13 +494,14 @@ const plans = [
       'CLI access',
       'No credit card required',
     ],
+    comingSoon: false,
   },
   {
     name: 'Pro',
     featured: true,
     price: { Monthly: '9€', Annually: '90€' },
     description: 'For freelancers managing multiple projects.',
-    button: { label: 'Start trial', href: '#demo' },
+    button: { label: 'Coming soon', href: '#demo' },
     features: [
       'Unlimited private repos',
       'Multiple environments',
@@ -495,13 +509,14 @@ const plans = [
       'Web dashboard',
       'Priority support',
     ],
+    comingSoon: true,
   },
   {
     name: 'Team',
     featured: false,
     price: { Monthly: '29€', Annually: '290€' },
     description: 'For small teams (2-10 developers).',
-    button: { label: 'Start trial', href: '#demo' },
+    button: { label: 'Coming soon', href: '#demo' },
     features: [
       'Everything in Pro',
       'Unlimited team members',
@@ -509,6 +524,7 @@ const plans = [
       'Activity feed',
       'Email support',
     ],
+    comingSoon: true,
   },
 ]
 
@@ -520,6 +536,7 @@ function Plan({
   features,
   activePeriod,
   featured = false,
+  comingSoon = false,
 }: {
   name: string
   price: { Monthly: string; Annually: string }
@@ -528,6 +545,7 @@ function Plan({
   features: string[]
   activePeriod: 'Monthly' | 'Annually'
   featured?: boolean
+  comingSoon?: boolean
 }) {
   return (
     <section
@@ -538,11 +556,19 @@ function Plan({
     >
       <h3
         className={clsx(
-          'flex items-center text-sm font-semibold',
+          'flex items-center gap-2 text-sm font-semibold',
           featured ? 'text-white' : 'text-gray-900',
         )}
       >
         <span>{name}</span>
+        {comingSoon && (
+          <span className={clsx(
+            'rounded-full px-2 py-0.5 text-xs font-medium',
+            featured ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-100 text-amber-700'
+          )}>
+            Coming soon
+          </span>
+        )}
       </h3>
       <p
         className={clsx(
@@ -600,22 +626,58 @@ function Plan({
           ))}
         </ul>
       </div>
-      <Button
-        href={button.href}
-        color={featured ? 'green' : 'gray'}
-        className="mt-6"
-      >
-        {button.label}
-      </Button>
+      {comingSoon ? (
+        <div
+          className={clsx(
+            'mt-6 flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold',
+            featured ? 'bg-gray-800 text-gray-400' : 'bg-gray-100 text-gray-400'
+          )}
+          onClick={() => trackEvent(AnalyticsEvents.PRICING_PLAN_CLICK, { plan: name, status: 'coming_soon' })}
+        >
+          {button.label}
+        </div>
+      ) : (
+        <Button
+          href={button.href}
+          color={featured ? 'green' : 'gray'}
+          className="mt-6"
+          onClick={() => trackEvent(AnalyticsEvents.PRICING_PLAN_CLICK, { plan: name })}
+        >
+          {button.label}
+        </Button>
+      )}
     </section>
   )
 }
 
 function Pricing() {
   const [activePeriod, setActivePeriod] = useState<'Monthly' | 'Annually'>('Monthly')
+  const pricingRef = useRef<HTMLElement>(null)
+  const hasFiredPricingView = useRef(false)
+
+  useEffect(() => {
+    const el = pricingRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasFiredPricingView.current) {
+            hasFiredPricingView.current = true
+            trackEvent(AnalyticsEvents.PRICING_VIEW)
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section
+      ref={pricingRef}
       id="pricing"
       aria-labelledby="pricing-title"
       className="border-t border-gray-200 bg-gray-100 py-20 sm:py-32"
@@ -686,6 +748,10 @@ function Pricing() {
 
 // Main Page
 export default function HomePage() {
+  useEffect(() => {
+    trackEvent(AnalyticsEvents.LANDING_VIEW)
+  }, [])
+
   return (
     <>
       <Hero />

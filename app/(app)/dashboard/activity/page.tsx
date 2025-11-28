@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { api } from '@/lib/api'
 import type { ActivityEvent } from '@/lib/types'
 import {
@@ -8,6 +8,7 @@ import {
   ErrorState,
   EmptyState,
 } from '@/app/components/dashboard'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const activityTypeConfig = {
   pull: {
@@ -68,6 +69,7 @@ export default function ActivityPage() {
   const [events, setEvents] = useState<ActivityEvent[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const hasFiredView = useRef(false)
 
   const fetchActivity = async () => {
     setIsLoading(true)
@@ -83,6 +85,10 @@ export default function ActivityPage() {
   }
 
   useEffect(() => {
+    if (!hasFiredView.current) {
+      hasFiredView.current = true
+      trackEvent(AnalyticsEvents.ACTIVITY_VIEW)
+    }
     fetchActivity()
   }, [])
 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { TrashIcon, KeyIcon, LockClosedIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import { CheckBadgeIcon, CogIcon, PencilIcon, ClipboardDocumentCheckIcon, EyeIcon } from '@heroicons/react/24/solid'
 import type { Vault, VaultPermission } from '@/lib/types'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 interface VaultCardProps {
   vault: Vault
@@ -63,6 +64,10 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
     <Link
       href={`/dashboard/vaults/${vault.repo_owner}/${vault.repo_name}`}
       className="block rounded-xl bg-white dark:bg-gray-800 p-4 shadow ring-1 ring-gray-900/5 dark:ring-white/10 hover:ring-gray-900/10 dark:hover:ring-white/20 transition-all group relative"
+      onClick={() => trackEvent(AnalyticsEvents.VAULT_CARD_CLICK, {
+        vaultId: vault.id,
+        repoName: `${vault.repo_owner}/${vault.repo_name}`,
+      })}
     >
       <div className="absolute top-3 right-3 flex items-center gap-2">
         {canDelete && onDelete && (

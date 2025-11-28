@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 function AuthCallbackContent() {
   const router = useRouter()
@@ -12,12 +13,14 @@ function AuthCallbackContent() {
     const errorParam = searchParams.get('error')
 
     if (errorParam) {
+      trackEvent(AnalyticsEvents.AUTH_CALLBACK_ERROR, { error: errorParam })
       setError(errorParam)
       return
     }
 
     // Session cookie should be set by the backend
     // Redirect to dashboard
+    trackEvent(AnalyticsEvents.AUTH_CALLBACK_SUCCESS)
     router.push('/dashboard')
   }, [searchParams, router])
 

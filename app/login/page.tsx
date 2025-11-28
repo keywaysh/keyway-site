@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, AuthProvider } from '@/lib/auth'
 import { KeywayLogo } from '@/app/components/logo'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const API_BASE = process.env.NEXT_PUBLIC_KEYWAY_API_URL || 'https://api.keyway.sh'
 
@@ -14,6 +15,7 @@ function LoginContent() {
   const [loginUrl, setLoginUrl] = useState(`${API_BASE}/v1/auth/github/start`)
 
   useEffect(() => {
+    trackEvent(AnalyticsEvents.LOGIN_PAGE_VIEW)
     const redirectUri = encodeURIComponent(window.location.origin + '/dashboard')
     setLoginUrl(`${API_BASE}/v1/auth/github/start?redirect_uri=${redirectUri}`)
   }, [])
@@ -51,6 +53,7 @@ function LoginContent() {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow ring-1 ring-gray-900/5 dark:ring-white/10 p-6">
           <a
             href={loginUrl}
+            onClick={() => trackEvent(AnalyticsEvents.LOGIN_GITHUB_CLICK)}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
