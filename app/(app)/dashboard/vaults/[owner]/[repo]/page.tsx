@@ -197,8 +197,21 @@ export default function VaultDetailPage() {
                     <h2 className="text-xl sm:text-2xl font-bold text-foreground break-words">
                       {vault.repo_owner}/{vault.repo_name}
                     </h2>
-                    <p className="text-foreground-muted text-sm">
-                      {vault.secrets_count} secrets · {vault.environments.join(', ')}
+                    <p className="text-foreground-muted text-sm flex items-center gap-1.5 flex-wrap">
+                      <span>{vault.secrets_count} secrets</span>
+                      <span>·</span>
+                      <span>{vault.environments.length} environments</span>
+                      {vault.permission === 'admin' && (
+                        <>
+                          <span>·</span>
+                          <Link
+                            href={`/dashboard/vaults/${owner}/${repo}/environments`}
+                            className="text-primary hover:text-primary-strong transition-colors"
+                          >
+                            Manage
+                          </Link>
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>

@@ -64,7 +64,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={cycleTheme}
-      className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-surface-800 text-text-secondary hover:text-text-primary hover:bg-surface-700 hover:border-border-subtle transition-colors"
+      className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       aria-label={`Current theme: ${getLabel()}. Click to change.`}
       title={getLabel()}
     >

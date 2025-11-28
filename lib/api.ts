@@ -437,6 +437,76 @@ class ApiClient {
       description: a.action.replace(/_/g, ' '),
     }))
   }
+
+  // Environment management
+  async getEnvironments(owner: string, repo: string): Promise<string[]> {
+    if (MOCK_MODE) {
+      await delay(300)
+      const vault = mockVaults.find(v => v.repo_owner === owner && v.repo_name === repo)
+      return vault?.environments || ['local', 'dev', 'staging', 'production']
+    }
+    const response = await this.request<{
+      data: { environments: string[] }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/environments`)
+    return response.data.environments
+  }
+
+  async createEnvironment(owner: string, repo: string, name: string): Promise<{ environment: string; environments: string[] }> {
+    if (MOCK_MODE) {
+      await delay(300)
+      const vault = mockVaults.find(v => v.repo_owner === owner && v.repo_name === repo)
+      if (vault) {
+        vault.environments = [...vault.environments, name].sort()
+      }
+      return { environment: name, environments: vault?.environments || [name] }
+    }
+    const response = await this.request<{
+      data: { environment: string; environments: string[] }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/environments`, {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    })
+    return response.data
+  }
+
+  async renameEnvironment(owner: string, repo: string, oldName: string, newName: string): Promise<{ oldName: string; newName: string; environments: string[] }> {
+    if (MOCK_MODE) {
+      await delay(300)
+      const vault = mockVaults.find(v => v.repo_owner === owner && v.repo_name === repo)
+      if (vault) {
+        vault.environments = vault.environments.map(e => e === oldName ? newName : e).sort()
+      }
+      return { oldName, newName, environments: vault?.environments || [newName] }
+    }
+    const response = await this.request<{
+      data: { oldName: string; newName: string; environments: string[] }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/environments/${encodeURIComponent(oldName)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ newName }),
+    })
+    return response.data
+  }
+
+  async deleteEnvironment(owner: string, repo: string, name: string): Promise<{ deleted: string; environments: string[] }> {
+    if (MOCK_MODE) {
+      await delay(300)
+      const vault = mockVaults.find(v => v.repo_owner === owner && v.repo_name === repo)
+      if (vault) {
+        vault.environments = vault.environments.filter(e => e !== name)
+      }
+      return { deleted: name, environments: vault?.environments || [] }
+    }
+    const response = await this.request<{
+      data: { deleted: string; environments: string[] }
+      meta: { requestId: string }
+    }>(`/v1/vaults/${owner}/${repo}/environments/${encodeURIComponent(name)}`, {
+      method: 'DELETE',
+    })
+    return response.data
+  }
 }
 
 export const api = new ApiClient()
