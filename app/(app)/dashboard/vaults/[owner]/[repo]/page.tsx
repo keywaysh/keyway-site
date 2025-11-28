@@ -197,21 +197,8 @@ export default function VaultDetailPage() {
                     <h2 className="text-xl sm:text-2xl font-bold text-foreground break-words">
                       {vault.repo_owner}/{vault.repo_name}
                     </h2>
-                    <p className="text-foreground-muted text-sm flex items-center gap-1.5 flex-wrap">
-                      <span>{vault.secrets_count} secrets</span>
-                      <span>·</span>
-                      <span>{vault.environments.length} environments</span>
-                      {vault.permission === 'admin' && (
-                        <>
-                          <span>·</span>
-                          <Link
-                            href={`/dashboard/vaults/${owner}/${repo}/environments`}
-                            className="text-primary hover:text-primary-strong transition-colors"
-                          >
-                            Manage
-                          </Link>
-                        </>
-                      )}
+                    <p className="text-foreground-muted text-sm">
+                      {vault.secrets_count} secrets · {vault.environments.length} environments
                     </p>
                   </div>
                 </div>
@@ -247,45 +234,78 @@ export default function VaultDetailPage() {
         {error ? (
           <ErrorState message={error} onRetry={fetchData} />
         ) : (
-          <div className="bg-card border border-card-border rounded-xl">
-            <div className="px-4 py-3 border-b border-border">
-              <h2 className="font-semibold text-foreground">Secrets</h2>
+          <>
+            {/* Secrets section */}
+            <div className="bg-card border border-card-border rounded-xl">
+              <div className="px-4 py-3 border-b border-border">
+                <h2 className="font-semibold text-foreground">Secrets</h2>
+              </div>
+
+              <div className="px-4">
+                {isLoading ? (
+                  <>
+                    {[...Array(5)].map((_, i) => (
+                      <SecretRowSkeleton key={i} />
+                    ))}
+                  </>
+                ) : secrets.length === 0 ? (
+                  <div className="py-8">
+                    <EmptyState
+                      title="No secrets"
+                      message="Add your first secret to this vault"
+                      action={
+                        <button
+                          onClick={handleCreateSecret}
+                          className="px-4 py-2 text-sm font-medium bg-primary text-dark rounded-lg hover:bg-primary-strong transition-colors cursor-pointer"
+                        >
+                          Add Secret
+                        </button>
+                      }
+                    />
+                  </div>
+                ) : (
+                  secrets.map((secret) => (
+                    <SecretRow
+                      key={secret.id}
+                      secret={secret}
+                      onEdit={vault && permissionConfig[vault.permission].canWrite ? handleEditSecret : undefined}
+                      onDelete={vault && permissionConfig[vault.permission].canWrite ? handleDeleteSecret : undefined}
+                    />
+                  ))
+                )}
+              </div>
             </div>
 
-            <div className="px-4">
-              {isLoading ? (
-                <>
-                  {[...Array(5)].map((_, i) => (
-                    <SecretRowSkeleton key={i} />
-                  ))}
-                </>
-              ) : secrets.length === 0 ? (
-                <div className="py-8">
-                  <EmptyState
-                    title="No secrets"
-                    message="Add your first secret to this vault"
-                    action={
-                      <button
-                        onClick={handleCreateSecret}
-                        className="px-4 py-2 text-sm font-medium bg-primary text-dark rounded-lg hover:bg-primary-strong transition-colors cursor-pointer"
-                      >
-                        Add Secret
-                      </button>
-                    }
-                  />
+            {/* Environments section */}
+            {vault && (
+              <div className="mt-6 bg-card border border-card-border rounded-xl">
+                <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                  <h2 className="font-semibold text-foreground">Environments</h2>
+                  {vault.permission === 'admin' && (
+                    <Link
+                      href={`/dashboard/vaults/${owner}/${repo}/environments`}
+                      className="text-sm text-primary hover:text-primary-strong transition-colors"
+                    >
+                      Manage
+                    </Link>
+                  )}
                 </div>
-              ) : (
-                secrets.map((secret) => (
-                  <SecretRow
-                    key={secret.id}
-                    secret={secret}
-                    onEdit={vault && permissionConfig[vault.permission].canWrite ? handleEditSecret : undefined}
-                    onDelete={vault && permissionConfig[vault.permission].canWrite ? handleDeleteSecret : undefined}
-                  />
-                ))
-              )}
-            </div>
-          </div>
+
+                <div className="px-4 py-3">
+                  <div className="flex flex-wrap gap-2">
+                    {vault.environments.map((env) => (
+                      <span
+                        key={env}
+                        className="px-2.5 py-1 text-sm font-medium bg-gray-100 dark:bg-gray-700 rounded-md text-foreground"
+                      >
+                        {env}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <SecretModal
