@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth'
-import { ThemeToggle } from '@/app/components/theme-toggle'
 import { Bars3Icon, ChevronDownIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 
 interface TopbarProps {
@@ -39,7 +38,6 @@ export function Topbar({ onMenuClick }: TopbarProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        <ThemeToggle />
         {isLoading ? (
           <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
         ) : user ? (

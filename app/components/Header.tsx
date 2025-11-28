@@ -58,6 +58,7 @@ const navLinks = [
   { href: '/#features', label: 'Features' },
   { href: '/#how-it-works', label: 'How it works' },
   { href: '/#pricing', label: 'Pricing' },
+  { href: 'https://docs.keyway.sh', label: 'Docs', external: true },
 ]
 
 export function Header() {
@@ -81,6 +82,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className="text-sm/7 font-medium text-gray-700 hover:text-gray-900"
+                  {...('external' in link && link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
                   {link.label}
                 </Link>
@@ -127,11 +129,23 @@ export function Header() {
                           className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pt-32 pb-6 shadow-2xl shadow-gray-900/20"
                         >
                           <div className="space-y-4">
-                            {navLinks.map((link) => (
-                              <MobileNavLink key={link.href} href={link.href}>
-                                {link.label}
-                              </MobileNavLink>
-                            ))}
+                            {navLinks.map((link) =>
+                              'external' in link && link.external ? (
+                                <a
+                                  key={link.href}
+                                  href={link.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block text-base/7 tracking-tight text-gray-700"
+                                >
+                                  {link.label}
+                                </a>
+                              ) : (
+                                <MobileNavLink key={link.href} href={link.href}>
+                                  {link.label}
+                                </MobileNavLink>
+                              )
+                            )}
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
                             <Button href="/login" variant="outline">

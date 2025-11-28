@@ -7,6 +7,7 @@ const navLinks = [
   { href: '/#features', label: 'Features' },
   { href: '/#how-it-works', label: 'How it works' },
   { href: '/#pricing', label: 'Pricing' },
+  { href: 'https://docs.keyway.sh', label: 'Docs', external: true },
   { href: '/terms', label: 'Terms' },
 ]
 
@@ -29,6 +30,7 @@ export function Footer() {
                   key={link.href}
                   href={link.href}
                   className="text-sm/7 font-medium text-gray-700 hover:text-gray-900"
+                  {...('external' in link && link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
                   {link.label}
                 </Link>

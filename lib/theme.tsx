@@ -15,17 +15,11 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const STORAGE_KEY = 'keyway-theme';
 
 function getSystemTheme(): 'dark' | 'light' {
-  if (typeof window === 'undefined') return 'dark';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'light';
 }
 
 function getInitialTheme(): Theme {
-  if (typeof window === 'undefined') return 'auto';
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'dark' || stored === 'light' || stored === 'auto') {
-    return stored;
-  }
-  return 'auto';
+  return 'light';
 }
 
 function applyTheme(resolved: 'dark' | 'light') {
@@ -37,8 +31,8 @@ function applyTheme(resolved: 'dark' | 'light') {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('auto');
-  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setThemeState] = useState<Theme>('light');
+  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
