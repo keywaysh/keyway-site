@@ -36,11 +36,10 @@ export function middleware(request: NextRequest) {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
-    "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://api.keyway.sh",
+    "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://api.keyway.sh https://localhost",
     "frame-ancestors 'none'",
     "base-uri 'self'",
-    "form-action 'self'",
-    "upgrade-insecure-requests"
+    "form-action 'self'"
   ]
   response.headers.set('Content-Security-Policy', cspDirectives.join('; '))
 

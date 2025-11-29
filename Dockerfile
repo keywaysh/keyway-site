@@ -1,0 +1,49 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source
+COPY . .
+
+# Build args for Next.js public env vars
+ARG NEXT_PUBLIC_KEYWAY_API_URL=https://api.keyway.sh
+ENV NEXT_PUBLIC_KEYWAY_API_URL=$NEXT_PUBLIC_KEYWAY_API_URL
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Build Next.js
+RUN pnpm run build
+
+# Production image
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install production dependencies only (ignore prepare scripts like husky)
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+
+# Copy built app
+COPY --from=builder /app/.next ./.next
+
+# Expose port
+EXPOSE 3000
+
+# Start
+CMD ["pnpm", "start"]

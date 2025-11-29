@@ -18,10 +18,22 @@ function AuthCallbackContent() {
       return
     }
 
-    // Session cookie should be set by the backend
+    // In dev mode with different ports, backend passes token via URL
+    // Set cookies client-side for the frontend domain
+    const token = searchParams.get('token')
+    if (token) {
+      const maxAge = 30 * 24 * 60 * 60 // 30 days
+      document.cookie = `keyway_session=${token}; Path=/; Max-Age=${maxAge}; SameSite=Lax`
+      document.cookie = `keyway_logged_in=true; Path=/; Max-Age=${maxAge}; SameSite=Lax`
+    }
+
+    // Get redirect path (default to dashboard)
+    const redirectPath = searchParams.get('redirect') || '/dashboard'
+
+    // Session cookie should be set by the backend (prod) or above (dev)
     // Redirect to dashboard
     trackEvent(AnalyticsEvents.AUTH_CALLBACK_SUCCESS)
-    router.push('/dashboard')
+    router.push(redirectPath)
   }, [searchParams, router])
 
   if (error) {
