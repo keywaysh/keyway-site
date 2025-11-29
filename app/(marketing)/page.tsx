@@ -321,6 +321,99 @@ function HowItWorks() {
   )
 }
 
+// Security Section
+const securityFeatures = [
+  {
+    name: 'AES-256-GCM Encryption',
+    description:
+      'Military-grade encryption. Each secret gets its own random IV. Your data is unreadable without the key.',
+    icon: ShieldIcon,
+  },
+  {
+    name: 'GitHub-Based Access',
+    description:
+      'No separate access management. If you can push to the repo, you can access the secrets. Simple as that.',
+    icon: KeyIcon,
+  },
+  {
+    name: 'Zero Plaintext Storage',
+    description:
+      'Secrets are encrypted before leaving your machine. We never see or store your values in plain text.',
+    icon: ServerIcon,
+  },
+]
+
+function ShieldIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
+      <circle cx={16} cy={16} r={16} fill="#10b981" fillOpacity={0.2} />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M16 6l8 3v6c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V9l8-3zm0 2.18L10 10.5v4.5c0 4.08 2.72 7.6 6 8.73 3.28-1.13 6-4.65 6-8.73v-4.5L16 8.18z"
+        fill="#059669"
+      />
+      <path d="M14 15l2 2 4-4" stroke="#059669" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  )
+}
+
+function KeyIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
+      <circle cx={16} cy={16} r={16} fill="#10b981" fillOpacity={0.2} />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 14a4 4 0 118 0 4 4 0 01-8 0zm4-2a2 2 0 100 4 2 2 0 000-4z"
+        fill="#059669"
+      />
+      <path d="M16 18v6m-2-2h4" stroke="#059669" strokeWidth={2} strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function ServerIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
+      <circle cx={16} cy={16} r={16} fill="#10b981" fillOpacity={0.2} />
+      <rect x={9} y={9} width={14} height={6} rx={1} fill="#059669" />
+      <rect x={9} y={17} width={14} height={6} rx={1} fill="#059669" />
+      <circle cx={12} cy={12} r={1} fill="white" />
+      <circle cx={12} cy={20} r={1} fill="white" />
+    </svg>
+  )
+}
+
+function Security() {
+  return (
+    <section id="security" aria-label="Security" className="bg-gray-50 py-20 sm:py-32">
+      <Container>
+        <div className="mx-auto max-w-2xl sm:text-center">
+          <h2 className="text-3xl font-medium tracking-tight text-gray-900">
+            Security You Can Trust
+          </h2>
+          <p className="mt-2 text-lg text-gray-600">
+            Your secrets deserve better than a Slack message. Here&apos;s how we protect them.
+          </p>
+        </div>
+        <ul
+          role="list"
+          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+        >
+          {securityFeatures.map((feature) => (
+            <li key={feature.name} className="rounded-2xl border border-gray-200 bg-white p-8">
+              <feature.icon className="h-8 w-8" />
+              <h3 className="mt-6 font-semibold text-gray-900">{feature.name}</h3>
+              <p className="mt-2 text-gray-700">{feature.description}</p>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  )
+}
+
 // Features Section
 const features = [
   {
@@ -757,6 +850,7 @@ export default function HomePage() {
       <Hero />
       <Problems />
       <HowItWorks />
+      <Security />
       <Features />
       <CallToAction />
       <Pricing />
