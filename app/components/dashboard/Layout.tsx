@@ -24,7 +24,7 @@ export function DashboardLayout({ children }: LayoutProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-white dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-dvh bg-white flex items-center justify-center">
         <LoadingSpinner />
       </div>
     )
@@ -35,7 +35,7 @@ export function DashboardLayout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 flex overflow-hidden">
+    <div className="min-h-dvh bg-gray-50 flex overflow-hidden">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0 min-h-dvh">
         <Topbar onMenuClick={() => setSidebarOpen(true)} />

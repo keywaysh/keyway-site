@@ -7,15 +7,15 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-dvh bg-white dark:bg-gray-900 py-12 px-6">
+    <div className="min-h-dvh bg-white py-12 px-6">
       <div className="max-w-3xl mx-auto">
         <Link href="/" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
           &larr; Back to home
         </Link>
 
-        <article className="prose prose-gray dark:prose-invert max-w-none">
+        <article className="prose prose-gray max-w-none">
           <h1>Terms of Service</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Last updated: November 2024</p>
+          <p className="text-gray-500 text-sm">Last updated: November 2024</p>
 
           <h2>1. Acceptance of Terms</h2>
           <p>

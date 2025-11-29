@@ -24,27 +24,27 @@ function formatTimeAgo(dateString: string): string {
 const permissionConfig: Record<VaultPermission, { icon: typeof CheckBadgeIcon; color: string; label: string }> = {
   admin: {
     icon: CheckBadgeIcon,
-    color: 'text-amber-500 dark:text-amber-400',
+    color: 'text-amber-500',
     label: 'Admin',
   },
   maintain: {
     icon: CogIcon,
-    color: 'text-purple-500 dark:text-purple-400',
+    color: 'text-purple-500',
     label: 'Maintain',
   },
   write: {
     icon: PencilIcon,
-    color: 'text-emerald-500 dark:text-emerald-400',
+    color: 'text-emerald-500',
     label: 'Write',
   },
   triage: {
     icon: ClipboardDocumentCheckIcon,
-    color: 'text-blue-500 dark:text-blue-400',
+    color: 'text-blue-500',
     label: 'Triage',
   },
   read: {
     icon: EyeIcon,
-    color: 'text-gray-500 dark:text-gray-400',
+    color: 'text-gray-500',
     label: 'Read',
   },
 }
@@ -63,7 +63,7 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
   return (
     <Link
       href={`/dashboard/vaults/${vault.repo_owner}/${vault.repo_name}`}
-      className="block rounded-xl bg-white dark:bg-gray-800 p-4 shadow ring-1 ring-gray-900/5 dark:ring-white/10 hover:ring-gray-900/10 dark:hover:ring-white/20 transition-all group relative"
+      className="block rounded-xl bg-white p-4 shadow ring-1 ring-gray-900/5 hover:ring-gray-900/10 transition-all group relative"
       onClick={() => trackEvent(AnalyticsEvents.VAULT_CARD_CLICK, {
         vaultId: vault.id,
         repoName: `${vault.repo_owner}/${vault.repo_name}`,
@@ -88,23 +88,23 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
         <img
           src={vault.repo_avatar}
           alt={vault.repo_owner}
-          className="w-10 h-10 rounded-lg ring-1 ring-gray-200 dark:ring-gray-700"
+          className="w-10 h-10 rounded-lg ring-1 ring-gray-200"
         />
         <div className="flex-1 min-w-0 pr-6">
-          <h3 className="font-semibold text-gray-900 dark:text-white truncate group-hover:text-primary transition-colors flex items-center gap-1.5">
+          <h3 className="font-semibold text-gray-900 truncate group-hover:text-primary transition-colors flex items-center gap-1.5">
             {vault.is_private ? (
-              <LockClosedIcon className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 shrink-0" title="Private repository" />
+              <LockClosedIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" title="Private repository" />
             ) : (
-              <GlobeAltIcon className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 shrink-0" title="Public repository" />
+              <GlobeAltIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" title="Public repository" />
             )}
             <span className="truncate">{vault.repo_owner}/{vault.repo_name}</span>
           </h3>
           <div className="flex items-center gap-3 mt-1">
-            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+            <span className="text-xs text-gray-500 flex items-center gap-1">
               <KeyIcon className="h-3.5 w-3.5" />
               {vault.secrets_count} secrets
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-xs text-gray-500">
               {formatTimeAgo(vault.updated_at)}
             </span>
           </div>
@@ -115,7 +115,7 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
         {vault.environments.map((env) => (
           <span
             key={env}
-            className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300"
+            className="px-2 py-0.5 text-xs font-medium bg-gray-100 rounded-full text-gray-600"
           >
             {env}
           </span>
@@ -127,16 +127,16 @@ export function VaultCard({ vault, onDelete }: VaultCardProps) {
 
 export function VaultCardSkeleton() {
   return (
-    <div className="rounded-xl bg-white dark:bg-gray-800 p-4 shadow ring-1 ring-gray-900/5 dark:ring-white/10 animate-pulse">
+    <div className="rounded-xl bg-white p-4 shadow ring-1 ring-gray-900/5 animate-pulse">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-gray-700" />
+        <div className="w-10 h-10 rounded-lg bg-gray-200" />
         <div className="flex-1">
-          <div className="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
-          <div className="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
+          <div className="h-5 w-32 bg-gray-200 rounded mb-2" />
+          <div className="h-3 w-24 bg-gray-200 rounded" />
         </div>
       </div>
       <div className="mt-3 flex gap-1.5">
-        <div className="h-5 w-16 bg-gray-200 dark:bg-gray-700 rounded-full" />
+        <div className="h-5 w-16 bg-gray-200 rounded-full" />
       </div>
     </div>
   )

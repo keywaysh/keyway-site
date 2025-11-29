@@ -97,7 +97,7 @@ export default function ActivityPage() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <h2 className="text-2xl font-bold mb-1 text-foreground">Activity</h2>
-          <p className="text-gray-500 dark:text-gray-400">Recent actions across all your vaults</p>
+          <p className="text-gray-500">Recent actions across all your vaults</p>
         </div>
 
         {error ? (
@@ -144,7 +144,7 @@ export default function ActivityPage() {
                           <span className="font-medium text-foreground">{event.user_name}</span>
                           <span className="text-foreground-muted">{event.description}</span>
                         </div>
-                        <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        <div className="mt-1 text-xs text-gray-500">
                           {event.vault_name}
                         </div>
                       </div>

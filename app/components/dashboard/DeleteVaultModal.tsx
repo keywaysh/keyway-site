@@ -46,17 +46,17 @@ export function DeleteVaultModal({ isOpen, onClose, onConfirm, vault }: DeleteVa
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-      <div className="fixed inset-0 bg-black/30 dark:bg-black/50" aria-hidden="true" />
+      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="w-full max-w-md rounded-xl bg-white dark:bg-gray-900 shadow-xl ring-1 ring-gray-900/5 dark:ring-white/10">
-          <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-            <DialogTitle className="text-lg font-semibold text-red-600 dark:text-red-500">
+        <DialogPanel className="w-full max-w-md rounded-xl bg-white shadow-xl ring-1 ring-gray-900/5">
+          <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+            <DialogTitle className="text-lg font-semibold text-red-600">
               Delete Vault
             </DialogTitle>
             <button
               onClick={onClose}
-              className="rounded-md p-1 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+              className="rounded-md p-1 text-gray-400 hover:text-gray-500 transition-colors"
             >
               <XMarkIcon className="h-5 w-5" />
             </button>
@@ -64,28 +64,28 @@ export function DeleteVaultModal({ isOpen, onClose, onConfirm, vault }: DeleteVa
 
           <div className="p-6">
             {error && (
-              <div className="mb-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-sm text-red-700 dark:text-red-400">
+              <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
                 {error}
               </div>
             )}
 
             {hasSecrets ? (
               <>
-                <div className="mb-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3">
+                <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-3">
                   <div className="flex gap-3">
-                    <ExclamationTriangleIcon className="h-5 w-5 text-red-600 dark:text-red-500 flex-shrink-0 mt-0.5" />
+                    <ExclamationTriangleIcon className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                     <div className="text-sm">
-                      <p className="font-medium text-red-700 dark:text-red-400">This action cannot be undone</p>
-                      <p className="text-gray-600 dark:text-gray-400 mt-1">
-                        This will permanently delete the <span className="font-mono text-gray-900 dark:text-white">{vault.repo_owner}/{vault.repo_name}</span> vault and all <span className="font-semibold text-gray-900 dark:text-white">{vault.secrets_count} secret{vault.secrets_count > 1 ? 's' : ''}</span> it contains.
+                      <p className="font-medium text-red-700">This action cannot be undone</p>
+                      <p className="text-gray-600 mt-1">
+                        This will permanently delete the <span className="font-mono text-gray-900">{vault.repo_owner}/{vault.repo_name}</span> vault and all <span className="font-semibold text-gray-900">{vault.secrets_count} secret{vault.secrets_count > 1 ? 's' : ''}</span> it contains.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
-                    To confirm, type <span className="font-mono text-gray-900 dark:text-white">{expectedText}</span> below:
+                  <label className="block text-sm text-gray-600 mb-2">
+                    To confirm, type <span className="font-mono text-gray-900">{expectedText}</span> below:
                   </label>
                   <input
                     type="text"
@@ -94,13 +94,13 @@ export function DeleteVaultModal({ isOpen, onClose, onConfirm, vault }: DeleteVa
                     placeholder={expectedText}
                     autoComplete="off"
                     spellCheck={false}
-                    className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-red-500 focus:outline-hidden focus:ring-1 focus:ring-red-500 font-mono text-sm"
+                    className="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-red-500 focus:outline-hidden focus:ring-1 focus:ring-red-500 font-mono text-sm"
                   />
                 </div>
               </>
             ) : (
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Are you sure you want to delete the vault <span className="font-mono text-gray-900 dark:text-white">{vault.repo_owner}/{vault.repo_name}</span>? This vault is empty.
+              <p className="text-gray-600 mb-4">
+                Are you sure you want to delete the vault <span className="font-mono text-gray-900">{vault.repo_owner}/{vault.repo_name}</span>? This vault is empty.
               </p>
             )}
 
@@ -108,7 +108,7 @@ export function DeleteVaultModal({ isOpen, onClose, onConfirm, vault }: DeleteVa
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>

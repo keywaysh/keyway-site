@@ -50,21 +50,8 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://app.posthog.com'
 
   return (
-    <html lang="en" className={clsx('bg-gray-50 dark:bg-gray-900 antialiased', inter.variable)} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('keyway-theme');
-                  if (theme === 'dark') document.documentElement.classList.add('dark');
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={clsx('bg-gray-50 antialiased', inter.variable)}>
+      <head />
       <body>
         {children}
         {posthogKey ? (

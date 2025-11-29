@@ -296,7 +296,7 @@ export default function VaultDetailPage() {
                     {vault.environments.map((env) => (
                       <span
                         key={env}
-                        className="px-2.5 py-1 text-sm font-medium bg-gray-100 dark:bg-gray-700 rounded-md text-foreground"
+                        className="px-2.5 py-1 text-sm font-medium bg-gray-100 rounded-md text-foreground"
                       >
                         {env}
                       </span>

@@ -29,15 +29,15 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight text-gray-900 dark:text-white">
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight text-gray-900">
           <KeywayLogo className="w-5 h-5 text-primary" />
           <span>Keyway</span>
         </Link>
         {onClose && (
           <button
             onClick={onClose}
-            className="md:hidden p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+            className="md:hidden p-1 text-gray-400 hover:text-gray-600 transition-colors"
           >
             <XMarkIcon className="h-5 w-5" />
           </button>
@@ -59,8 +59,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
                   onClick={onClose}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                      ? 'bg-gray-100 text-gray-900'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -72,12 +72,12 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
         </ul>
       </nav>
 
-      <div className="p-3 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-3 border-t border-gray-200">
         <Link
           href="https://docs.keyway.sh"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
         >
           <BookOpenIcon className="h-5 w-5" />
           Docs
@@ -91,14 +91,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-56 border-r border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-900/50 flex-col">
+      <aside className="hidden md:flex w-56 border-r border-gray-200 bg-white/50 flex-col">
         <SidebarContent />
       </aside>
 
       {/* Mobile drawer */}
       <Dialog open={isOpen} onClose={onClose} className="relative z-50 md:hidden">
-        <div className="fixed inset-0 bg-black/30 dark:bg-black/50" aria-hidden="true" />
-        <DialogPanel className="fixed left-0 top-0 h-full w-56 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <DialogPanel className="fixed left-0 top-0 h-full w-56 bg-white border-r border-gray-200 flex flex-col">
           <SidebarContent onClose={onClose} />
         </DialogPanel>
       </Dialog>
