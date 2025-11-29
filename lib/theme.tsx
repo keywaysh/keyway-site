@@ -19,7 +19,9 @@ function getSystemTheme(): 'dark' | 'light' {
 }
 
 function getInitialTheme(): Theme {
-  return 'light';
+  if (typeof window === 'undefined') return 'light';
+  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+  return stored && ['dark', 'light', 'auto'].includes(stored) ? stored : 'light';
 }
 
 function applyTheme(resolved: 'dark' | 'light') {

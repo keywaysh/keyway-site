@@ -58,8 +58,7 @@ export default function RootLayout({
               (function() {
                 try {
                   var theme = localStorage.getItem('keyway-theme');
-                  var isDark = theme === 'dark' || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                  if (isDark) document.documentElement.classList.add('dark');
+                  if (theme === 'dark') document.documentElement.classList.add('dark');
                 } catch (e) {}
               })();
             `,
