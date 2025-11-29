@@ -30,13 +30,14 @@ export function middleware(request: NextRequest) {
 
   // Content Security Policy (CSP)
   // Allow PostHog analytics and GitHub avatars
+  const apiUrl = process.env.NEXT_PUBLIC_KEYWAY_API_URL || 'https://api.keyway.sh'
   const cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://us.i.posthog.com https://app.posthog.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
-    "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://api.keyway.sh https://localhost",
+    `connect-src 'self' https://us.i.posthog.com https://app.posthog.com ${apiUrl} https://localhost`,
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'"
