@@ -220,7 +220,7 @@ export default function SecurityPage() {
               Security That Makes Sense
             </h1>
             <p className="mt-6 text-lg text-gray-300">
-              Your secrets are too important to share over Slack. But they don&apos;t need enterprise complexity either. Keyway gives you bank-grade security with developer-grade simplicity.
+              Your secrets are too important to share over Slack. Keyway brings enterprise-grade encryption to every team, with the simplicity developers actually want to use.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Button href="/#demo" color="green">
