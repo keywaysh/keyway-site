@@ -459,16 +459,16 @@ export default function SecurityPage() {
 
           <div className="mx-auto mt-12 max-w-3xl divide-y divide-gray-200">
             <div className="py-6">
-              <h3 className="text-lg font-semibold text-gray-900">Can Keyway employees see my secrets?</h3>
+              <h3 className="text-lg font-semibold text-gray-900">How is my data protected?</h3>
               <p className="mt-2 text-gray-600">
-                No. Your secrets are encrypted with AES-256-GCM before they reach our servers. We don&apos;t have access to the decryption keys for your data. Even if someone accessed our database, they&apos;d only see encrypted blobs.
+                Your secrets are encrypted with AES-256-GCM using a dedicated crypto service isolated from the internet. The encryption keys are stored separately from the encrypted data, minimizing exposure in case of a breach.
               </p>
             </div>
 
             <div className="py-6">
               <h3 className="text-lg font-semibold text-gray-900">What happens if Keyway gets breached?</h3>
               <p className="mt-2 text-gray-600">
-                Attackers would get encrypted data they can&apos;t read. We use unique IVs for each secret and authentication tags to detect tampering. Without the encryption keys, your secrets remain protected.
+                Attackers would need to compromise both the database and the isolated crypto service to decrypt secrets. We use unique IVs for each secret and authentication tags to detect tampering.
               </p>
             </div>
 
