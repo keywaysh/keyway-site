@@ -134,7 +134,7 @@ const comparisonData = [
   { method: '.env in Slack/Email', encryption: 'None', accessControl: 'None', auditLog: 'No', revocation: 'Manual hunt' },
   { method: '1Password/LastPass', encryption: 'Yes', accessControl: 'Manual', auditLog: 'Yes', revocation: 'Manual' },
   { method: 'AWS Secrets Manager', encryption: 'Yes', accessControl: 'IAM (complex)', auditLog: 'Yes', revocation: 'Manual' },
-  { method: 'Keyway', encryption: 'AES-256-GCM', accessControl: 'GitHub (automatic)', auditLog: 'Coming soon', revocation: 'Automatic' },
+  { method: 'Keyway', encryption: 'AES-256-GCM', accessControl: 'GitHub (automatic)', auditLog: 'Yes', revocation: 'Automatic' },
 ]
 
 function SecurityFeature({
@@ -421,28 +421,17 @@ export default function SecurityPage() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/20">
-                  <svg className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/20">
+                  <svg className="h-4 w-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">Audit logs</h3>
-                  <p className="mt-1 text-sm text-gray-400">Coming soon. Track who accessed what and when.</p>
+                  <p className="mt-1 text-sm text-gray-400">Track who accessed what and when. Full activity history per vault.</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/20">
-                  <svg className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white">SOC 2 Type II certification</h3>
-                  <p className="mt-1 text-sm text-gray-400">On our roadmap for enterprise customers.</p>
-                </div>
-              </div>
             </div>
           </div>
         </Container>
