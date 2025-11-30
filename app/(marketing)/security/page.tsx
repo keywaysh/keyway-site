@@ -123,9 +123,9 @@ const securityFeatures = [
     icon: ServerIcon,
   },
   {
-    name: 'Minimal Data Collection',
+    name: 'Privacy-Conscious Analytics',
     description:
-      'We only collect what\'s necessary to provide the service: your GitHub username, repository names, and encrypted secrets. No tracking, no selling data, no BS.',
+      'We use PostHog for product analytics, which can be disabled via KEYWAY_DISABLE_TELEMETRY=1. We never track secret values, only usage metadata. No selling data.',
     icon: ShieldCheckIcon,
   },
 ]
