@@ -6,6 +6,7 @@ import { KeywayLogo } from '@/app/components/logo'
 const navLinks = [
   { href: '/#features', label: 'Features' },
   { href: '/#how-it-works', label: 'How it works' },
+  { href: '/security', label: 'Security' },
   { href: '/#pricing', label: 'Pricing' },
   { href: 'https://docs.keyway.sh', label: 'Docs', external: true },
   { href: 'https://status.keyway.sh', label: 'Status', external: true },
