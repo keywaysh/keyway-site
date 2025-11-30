@@ -99,9 +99,9 @@ const securityFeatures = [
     icon: LockClosedIcon,
   },
   {
-    name: 'Zero Plaintext Storage',
+    name: 'Encrypted at Rest',
     description:
-      'Your secrets are encrypted before leaving your machine. We never see, store, or log your values in plain text. Even our database backups contain only encrypted data.',
+      'Secrets are encrypted using AES-256-GCM by a dedicated service isolated from the internet. Database backups contain only encrypted data.',
     icon: EyeOffIcon,
   },
   {
@@ -254,7 +254,7 @@ export default function SecurityPage() {
               <svg className="h-5 w-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span>Zero plaintext storage</span>
+              <span>Isolated crypto service</span>
             </div>
             <div className="flex items-center gap-2">
               <svg className="h-5 w-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
@@ -392,7 +392,7 @@ export default function SecurityPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">AES-256-GCM encryption at rest</h3>
-                  <p className="mt-1 text-sm text-gray-400">Your secrets are encrypted with unique IVs before storage.</p>
+                  <p className="mt-1 text-sm text-gray-400">Encryption handled by a dedicated service isolated from the internet, with unique IVs per secret.</p>
                 </div>
               </div>
 
