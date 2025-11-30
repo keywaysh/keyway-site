@@ -392,7 +392,7 @@ export default function SecurityPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">AES-256-GCM encryption at rest</h3>
-                  <p className="mt-1 text-sm text-gray-400">Encryption handled by a dedicated service isolated from the internet, with unique IVs per secret.</p>
+                  <p className="mt-1 text-sm text-gray-400">Built in Go for its audited standard library cryptography. Isolated from the internet, with unique IVs per secret.</p>
                 </div>
               </div>
 
